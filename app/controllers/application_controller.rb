@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::API
   include ActionController::Cookies
-  
+
 rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
 rescue_from ActiveRecord::RecordInvalid, with: :render_record_invalid_response
 
@@ -16,6 +16,10 @@ private
 
   def authorize_logged
     render json: {errors: ["Not Authorized"]}, status: :unauthorized unless session.include? :user_id
+  end
+
+  def authorize_admin
+    render json:{errors: ["Not Authorized"]}, status: :unauthorized unless User.find(session[:user_id]).isAdmin == true
   end
 
 end
