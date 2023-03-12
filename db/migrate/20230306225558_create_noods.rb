@@ -3,7 +3,7 @@ class CreateNoods < ActiveRecord::Migration[6.1]
     create_table :noods do |t|
       t.string :brand
       t.string :flavor
-      t.string :type
+      t.string :nood_type
       t.string :cuisine
       t.money :price
       t.text :contents, array: true, default: []

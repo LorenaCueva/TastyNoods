@@ -8,6 +8,6 @@ class Pantry < ApplicationRecord
         less_than_or_equal_to: 5.0,
         message: "must be between 0.0 and 5.0"
       }
-      validate :must_have_0_5_increment, attribute: :rating
+    validate -> {must_have_0_5_increment(attribute: attribute)}
     
 end

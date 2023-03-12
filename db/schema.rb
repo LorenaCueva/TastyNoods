@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(version: 2023_03_12_184723) do
   create_table "noods", force: :cascade do |t|
     t.string "brand"
     t.string "flavor"
-    t.string "type"
+    t.string "nood_type"
     t.string "cuisine"
     t.money "price", scale: 2
     t.text "contents", default: [], array: true
