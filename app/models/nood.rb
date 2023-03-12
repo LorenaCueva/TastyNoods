@@ -3,6 +3,7 @@ class Nood < ApplicationRecord
 
     has_one :rating, :dependent => :destroy
     has_many :pantries, :dependent => :destroy
+    has_many :comments, through: :pantries
     has_many :users, through: :pantries
     has_many :locations, :dependent => :destroy
     has_many :stores, through: :locations
