@@ -2,17 +2,28 @@ import 'bulma/css/bulma.min.css';
 import '../App.css';
 import Login from './Login';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import { UserProvider } from './UserContext';
+import User from './User';
+import Navbar from './Navbar';
 
 function App() {
   return (
-    <div className='container'>
-      <h1>Tasty Noods</h1>
-      <BrowserRouter>
-        <Routes>
-          <Route index element={<Login/>}></Route>
-        </Routes>
-      </BrowserRouter>
+    <UserProvider>
+      <div className='container'>
+        <BrowserRouter>
+          <Routes>
+            <Route index element={<Login/>}></Route>
+            <Route path='/login' element={<Login/>}></Route>
+            <Route path='/signup' element={<Login isSignup={true}/>}></Route>
+            <Route element={<Navbar/>}>
+              <Route path='/user' element={<User/>}></Route>
+            </Route>
+            
+          
+          </Routes>
+        </BrowserRouter>
     </div>
+    </UserProvider>
    
   );
 }
