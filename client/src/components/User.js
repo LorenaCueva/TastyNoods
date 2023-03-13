@@ -11,7 +11,7 @@ function User(){
         if(!user){
             navigate('/login')
         }
-    })
+    },[])
     
     if(user){
         return(

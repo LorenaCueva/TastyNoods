@@ -1,6 +1,6 @@
 class NoodsController < ApplicationController
     # before_action :authorize_logged
-    # before_action :authorize_admin
+    # before_action :authorize_admin, only: [:create, :update, :destroy]
     before_action :find_nood, only: [:show, :update, :destroy]
 
     def index

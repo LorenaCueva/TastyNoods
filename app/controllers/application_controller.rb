@@ -22,4 +22,8 @@ private
     render json:{errors: ["Not Authorized"]}, status: :unauthorized unless User.find(session[:user_id]).isAdmin == true
   end
 
+  def find_user
+    @user = User.find(session[:user_id])
+  end
+
 end

@@ -8,11 +8,11 @@ class Nood < ApplicationRecord
     has_many :locations, :dependent => :destroy
     has_many :stores, through: :locations
     
-    validates :brand, presence: :true, uniqueness: { scope: :flavor }
+    validates :brand, presence: :true
     validates :flavor, presence: :true, uniqueness: { scope: :brand }
     validates :nood_type, presence: :true
     validates :cuisine, presence: :true
-    validates :price, presence: :true, numericality: { greater_than_or_equal_to: 0.01 }
+    validates :price, presence: :true, numericality: { greater_than_or_equal_to: 0.00 }
     validates :contents, presence: true
     validate :contents_has_noodles
     validates :cooking_time, presence: :true

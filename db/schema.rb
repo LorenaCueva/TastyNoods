@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_12_184723) do
+ActiveRecord::Schema.define(version: 2023_03_08_181452) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,14 +43,6 @@ ActiveRecord::Schema.define(version: 2023_03_12_184723) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "comments", force: :cascade do |t|
-    t.integer "pantry_id"
-    t.string "comment"
-    t.boolean "flagged", default: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "locations", force: :cascade do |t|
     t.integer "store_id"
     t.integer "nood_id"
@@ -73,7 +65,9 @@ ActiveRecord::Schema.define(version: 2023_03_12_184723) do
   create_table "pantries", force: :cascade do |t|
     t.integer "user_id"
     t.integer "nood_id"
-    t.decimal "rating", precision: 1, scale: 1
+    t.decimal "rating", precision: 2, scale: 1
+    t.string "comments"
+    t.boolean "flagged", default: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -81,14 +75,14 @@ ActiveRecord::Schema.define(version: 2023_03_12_184723) do
   create_table "ratings", force: :cascade do |t|
     t.integer "nood_id"
     t.integer "user_id"
-    t.decimal "flavor", precision: 1, scale: 1
-    t.decimal "broth_characteristic", precision: 1, scale: 1
-    t.decimal "noodle_texture", precision: 1, scale: 1
-    t.decimal "aroma", precision: 1, scale: 1
-    t.decimal "packaging", precision: 1, scale: 1
-    t.decimal "completeness_of_meal", precision: 1, scale: 1
-    t.decimal "overal_rating", precision: 1, scale: 1
-    t.string "notes"
+    t.decimal "flavor", precision: 2, scale: 1
+    t.decimal "broth_characteristic", precision: 2, scale: 1
+    t.decimal "noodle_texture", precision: 2, scale: 1
+    t.decimal "aroma", precision: 2, scale: 1
+    t.decimal "packaging", precision: 2, scale: 1
+    t.decimal "completeness_of_meal", precision: 2, scale: 1
+    t.decimal "overall_rating", precision: 2, scale: 1
+    t.text "notes"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

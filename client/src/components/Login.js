@@ -21,7 +21,7 @@ function Login({isSignup = false}){
 
     useEffect(()=>{
         if(user){
-            navigate('/user')
+            navigate('/noods')
         }
         else{
         fetch('/me').then(response => {

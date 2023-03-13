@@ -18,35 +18,35 @@ function Navbar(){
     }
 
     return(
-    <div>
+    <section className="section">
         <nav className="navbar is-fixed-top" role="navigation" aria-label="main navigation">
             <div className="navbar-brand">
-                {/* <a className="navbar-item" href="https://bulma.io"> */}
-                    <img src="https://i.pinimg.com/originals/89/76/e2/8976e2fc0f500e73604cb47df14327f5.jpg" width="112" height="28"/>
-                {/* </a> */}
+                    <img src="https://thumbs.dreamstime.com/b/illustration-bowl-noodle-noodles-chopsticks-91574625.jpg" width="85" height="28"/>
             </div>
             <div className="navbar-menu">
                 <div className="navbar-start">
-                    {/* <a className="navbar-item">My Pantry</a> */}
                     <div className="navbar-item has-dropdown is-hoverable">
-                        <a className="navbar-link">{user.username}</a>
+                        <p className="navbar-link">Username</p>
                         <div className="navbar-dropdown">
-                            <NavLink className="navbar-item">Profile</NavLink>
-                            <NavLink className="navbar-item">My Pantry</NavLink>
+                            <NavLink className="navbar-item" to="/user">Profile</NavLink>
                         </div>
                     </div>
-                    <NavLink className="navbar-item">Tasty Noods</NavLink>
-                    <NavLink className="navbar-item" >My Pantry</NavLink>
-                    <NavLink className="navbar-item" >Comments</NavLink>
+                    <NavLink className="navbar-item" to="/noods">Tasty Noods</NavLink>
+                    <NavLink className="navbar-item" to="/pantry">My Pantry</NavLink>
                 </div>
                 <div className="navbar-end">
                     <div className="navbar-item">
-                        <div className="buttons">
-                            <a className="button is-primary" onClick={handleLogout}>
-                                <strong>Logout</strong>
-                            </a>
-                            {/* <a className="button is-light">Log in</a> */}
+                    <div className="navbar-item has-dropdown is-hoverable">
+                        <p className="navbar-link">Admin</p>
+                        <div className="navbar-dropdown">
+                            <NavLink className="navbar-item">Comments</NavLink>
+                            <NavLink className="navbar-item">Ratings</NavLink>
+                            {/* <NavLink className="navbar-item">Nood</NavLink> */}
                         </div>
+                    </div>
+                        <button className="button is-danger" onClick={handleLogout}>
+                            <strong>Logout</strong>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -54,7 +54,7 @@ function Navbar(){
         <div>
             <Outlet/>
         </div>
-    </div>
+    </section>
     )
 }
 export default Navbar;
