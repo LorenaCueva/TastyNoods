@@ -1,7 +1,7 @@
 class NoodsController < ApplicationController
     # before_action :authorize_logged
-    # before_action :authorize_admin, only: [:create, :update, :destroy]
-    before_action :find_nood, only: [:show, :update, :destroy]
+    before_action :authorize_admin, only: [:create, :update, :destroy]
+    before_action :find_nood, only: [:show, :update, :destroy, :comments]
 
     def index
         noods = Nood.all 
@@ -25,6 +25,11 @@ class NoodsController < ApplicationController
     def destroy
         @nood.destroy
         head :no_content
+    end
+
+    def comments
+        pantries = @nood.pantries.filter{|p|p.comments}
+        render json: pantries, each_serializer: NoodCommentsSerializer, status: :ok
     end
 
     private

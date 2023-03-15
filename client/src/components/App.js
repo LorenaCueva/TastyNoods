@@ -7,9 +7,9 @@ import User from './User';
 import Navbar from './Navbar';
 import Noods from './Noods';
 import Pantry from './Pantry';
-import Log2 from './Log2';
 
 function App() {
+
   return (
     <UserProvider>
       <div className='container'>
@@ -17,12 +17,12 @@ function App() {
           <Routes>
             <Route index element={<Login/>}></Route>
             <Route path='/login' element={<Login/>}></Route>
+            <Route path='/logout' element={<Login loggout={true}/>}></Route>
             <Route path='/signup' element={<Login isSignup={true}/>}></Route>
             <Route element={<Navbar/>}>
               <Route path='/user' element={<User/>}></Route>
               <Route path='/noods' element={<Noods/>}></Route>
               <Route path='/pantry' element={<Pantry/>}></Route>
-              <Route path ="/try" element={<Log2/>}></Route>
             </Route>
           </Routes>
         </BrowserRouter>

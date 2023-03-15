@@ -1,22 +1,177 @@
 import { UserContext } from "./UserContext";
-import { useContext, useEffect} from "react";
+import { useContext, useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 
 function User(){
 
+    const clearFormData = {
+        password: "",
+        password_confirmation: ""
+    }
+
+    let displayErrors = [];
+
     const { user } = useContext(UserContext);
+    const [formData, setFormData] = useState(clearFormData);
+    const [errors, setErrors] = useState([]);
+    const [selectedFile, setSelectedFile] = useState({avatar: null});
     const navigate = useNavigate();
 
+   const image = user && user.avatar ? user.avatar : "https://i.pinimg.com/originals/89/76/e2/8976e2fc0f500e73604cb47df14327f5.jpg"
+    
     useEffect(()=>{
         if(!user){
             navigate('/login')
         }
-    },[])
+    },[user])
+
+    console.log(user)
+
+    function handleFormChange(e){
+        const name = e.target.name;
+        const value = e.target.value;
+        setFormData({...formData, [name]:value});
+     }
+     const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        setSelectedFile({avatar: file})
+    };
+  
+     async function handleFormSubmit(e){
+         e.preventDefault();
+         if(formData.password && formData.password_confirmation){
+            setFormData(clearFormData);
+            const response = await fetch(`/users/${user.id}`, {
+             method: "PATCH",
+             headers: {"Content-Type":"application/json"},
+             body: JSON.stringify(formData)
+            });
+            const data = await response.json();
+            if(response.ok){
+                setErrors(["Success!"])
+            }
+            else{
+                setErrors(data.errors);
+            }
+         }
+         else{
+            setErrors(["Fields can't be blank"])
+         }
+     }
+
+     function handleFileSubmit(e){
+        e.preventDefault();
+        const fileData = new FormData();
+        fileData.append('avatar', selectedFile.avatar)
+        fetch(`/users/${user.id}/avatar`,{
+            method:"PATCH",
+            body: fileData
+        })
+        .then(r => r.json())
+        .then(data => console.log("data", data))
+
+     }
+
+
+     if (errors){
+        displayErrors = errors.map((e, index) => <p className="has-text-danger is-size-6" key={index}>{e}</p>)
+     }
+
     
     if(user){
         return(
             <div>
-                <h1>Welcome! {user.username} </h1>
+            <section>
+            <div className="columns has-text-centered">
+                <div className="column is-half is-offset-one-quarter">Blas
+                    <div className="box">
+                    <div className="title has-text-grey is-5">Change Avatar</div>
+                    <img id="panda" src={image} alt="panda" width= "30%"/>
+                    <div className="level">
+                        <div className="level-item">
+                        <div className="file is-small is-centered is-danger">
+                            <label className="file-label">
+                                <input className="file-input" type="file" name="avatar" accept="image/png" multiple={false} onChange={handleFileChange}/>
+                                <span className="file-cta"> Choose a file</span>
+                            {selectedFile.avatar?
+                                <>
+                                    <span className="file-name">{selectedFile.avatar.name}</span>
+                                    <span className="button is-small is-danger" onClick={handleFileSubmit}>Change</span>
+                            </> : null}
+                            </label>
+                        </div>
+                    </div>
+                    </div><br/>
+                    <div className="title has-text-grey is-5">Change Password</div>
+                    <form>
+                        <div className="field">
+                        <p className="control has-icons-left">
+                            <input className="input" type="password" name="password" placeholder="New Password" value={formData.password} onChange={handleFormChange}/>
+                            <span className="icon is-small is-left">
+                            <i className="material-icons">lock</i>
+                            </span>
+                        </p>
+                        </div>
+                        <div className="field">
+                        <p className="control has-icons-left">
+                            <input className="input" type="password" name="password_confirmation" placeholder="Password Confirmation" value={formData.password_confirmation} onChange={handleFormChange}/>
+                            <span className="icon is-small is-left">
+                            <i className="material-icons">lock</i>
+                            </span>
+                        </p>
+                        </div>
+                        <div className="pt-3"></div>
+                        <button className="button is-block is-danger is-large is-fullwidth" onClick={handleFormSubmit}>Change Password</button>
+                        </form>
+                        <div className="pt-3">{displayErrors}</div>
+                    </div>
+                
+                </div>
+            </div>
+            </section>
+
+            {/* <section>
+            <div className="container is-fluid">
+            <div className="columns is-centered is-vcentered" style={{ minHeight: '100vh' }}>
+                <div className="column is-half">
+                    <div className="tile is-parent is-vertical"> */}
+                        {/* <div className="tile is-child has-text-centered box">
+                            <p className="title">Tile 1</p>
+                            <img id="panda" src="../ramen1.png" alt="panda" width= "30%"/>
+                            <div className="is-right">
+                    <button className="button is-small">
+                    <span>Change Avatar</span>
+                    <span className="icon is-small">
+                    <i className="material-icons">edit</i>
+                    </span>
+                    </button>
+                    </div>
+                        </div> */}
+                        {/* <article className="tile is-child">
+      <div className="content">
+      <figure className="image is-4by3">
+            <img src="../ramen1.png"/>
+          </figure>
+          <div className="is-right">
+                    <button className="button is-small">
+                    <span>Change Avatar</span>
+                    <span className="icon is-small">
+                    <i className="material-icons">edit</i>
+                    </span>
+                    </button>
+                    </div>
+        
+      </div>
+    </article>
+                        <div className="tile is-child box">
+                            <p className="title">Tile 2</p>
+                            <p>Content for Tile 2</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            </section> */}
             </div>
         )
     }

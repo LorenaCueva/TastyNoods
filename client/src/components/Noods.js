@@ -30,7 +30,7 @@ function Noods(){
         else{
             fetchNoods();
         }
-    },[])
+    },[user])
 
     return (
         <div>

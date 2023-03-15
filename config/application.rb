@@ -19,7 +19,7 @@ require "action_cable/engine"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module ReactRailsApiProjectTemplate
+module TastyNoods
   class Application < Rails::Application
     # Adding cookies and session middleware
     config.middleware.use ActionDispatch::Cookies
@@ -44,5 +44,9 @@ module ReactRailsApiProjectTemplate
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+
+    # config.active_storage.cloudinary_folder = {
+    #   avatar: AvatarUploader
+    # }
   end
 end

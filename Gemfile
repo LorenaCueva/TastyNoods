@@ -48,6 +48,10 @@ group :test do
   gem 'shoulda-matchers', '~> 4.0'
 end
 
+group :development, :test do
+  gem 'dotenv-rails'
+end
+
 gem "active_model_serializers", "~> 0.10.12"
-gem "dotenv-rails"
 gem "cloudinary"
+gem 'activestorage-cloudinary-service'

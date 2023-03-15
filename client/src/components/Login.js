@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { UserContext } from "./UserContext";
 import { useNavigate } from "react-router-dom";
 
-function Login({isSignup = false}){
+function Login({isSignup = false, loggout = false}){
 
     const clearFormData = {
         username: "",
@@ -20,17 +20,18 @@ function Login({isSignup = false}){
     let message = signup ? "Signup" : "Login"
 
     useEffect(()=>{
-        if(user){
-            navigate('/noods')
+        if(loggout){
+            setUser(null)
+            navigate("/")
         }
-        else{
         fetch('/me').then(response => {
             if(response.ok){
                 response.json().then(user => {
                     setUser(user);
+                    navigate('/noods')
                 })
             }
-         })}
+        })
     },[user])
 
     function handleFormChange(e){
@@ -50,7 +51,7 @@ function Login({isSignup = false}){
         const data = await response.json();
         if(response.ok){
             setUser(data);
-            navigate('/user');
+            navigate('/noods');
         }
         else{
             setErrors(data.errors);
