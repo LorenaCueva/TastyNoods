@@ -1,6 +1,7 @@
 import { UserContext } from "./UserContext";
 import { useContext, useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
+require('@rails/activestorage').start();
 
 function User(){
 
@@ -10,36 +11,38 @@ function User(){
     }
 
     let displayErrors = [];
+    
 
     const { user } = useContext(UserContext);
     const [formData, setFormData] = useState(clearFormData);
     const [errors, setErrors] = useState([]);
     const [selectedFile, setSelectedFile] = useState({avatar: null});
+    const [loading, setLoading] = useState(false);
+    const [avatar, setAvatar] = useState(user && user.avatar ? user.avatar : "https://i.pinimg.com/originals/89/76/e2/8976e2fc0f500e73604cb47df14327f5.jpg")
     const navigate = useNavigate();
-
-   const image = user && user.avatar ? user.avatar : "https://i.pinimg.com/originals/89/76/e2/8976e2fc0f500e73604cb47df14327f5.jpg"
     
     useEffect(()=>{
+        require('@rails/activestorage').start();
         if(!user){
             navigate('/login')
         }
     },[user])
 
-    console.log(user)
+    // console.log(user)
 
     function handleFormChange(e){
         const name = e.target.name;
         const value = e.target.value;
         setFormData({...formData, [name]:value});
      }
-     const handleFileChange = (e) => {
+     function handleFileChange(e){
         const file = e.target.files[0];
         setSelectedFile({avatar: file})
+        setAvatar(URL.createObjectURL(file))
     };
   
      async function handleFormSubmit(e){
          e.preventDefault();
-         if(formData.password && formData.password_confirmation){
             setFormData(clearFormData);
             const response = await fetch(`/users/${user.id}`, {
              method: "PATCH",
@@ -53,25 +56,28 @@ function User(){
             else{
                 setErrors(data.errors);
             }
-         }
-         else{
-            setErrors(["Fields can't be blank"])
-         }
      }
 
      function handleFileSubmit(e){
         e.preventDefault();
+        setLoading(true);
         const fileData = new FormData();
         fileData.append('avatar', selectedFile.avatar)
+        console.log(fileData)
+        console.log(selectedFile.avatar)
         fetch(`/users/${user.id}/avatar`,{
             method:"PATCH",
             body: fileData
         })
         .then(r => r.json())
-        .then(data => console.log("data", data))
-
+        .then(data => {
+            console.log(data)
+            setLoading(false)
+            setAvatar(data.avatar)
+            setSelectedFile({avatar: null})
+        })
+        .catch(error => setErrors(error))
      }
-
 
      if (errors){
         displayErrors = errors.map((e, index) => <p className="has-text-danger is-size-6" key={index}>{e}</p>)
@@ -86,19 +92,27 @@ function User(){
                 <div className="column is-half is-offset-one-quarter">Blas
                     <div className="box">
                     <div className="title has-text-grey is-5">Change Avatar</div>
-                    <img id="panda" src={image} alt="panda" width= "30%"/>
+                    <img id="panda" src={avatar} alt="avatar" width="150"/>
+                    {loading ? <progress className="progress is-danger mt-5" max="100"></progress> : null}
                     <div className="level">
                         <div className="level-item">
                         <div className="file is-small is-centered is-danger">
+                            <form encType="multipart/form-data" direct_upload="true" >
                             <label className="file-label">
-                                <input className="file-input" type="file" name="avatar" accept="image/png" multiple={false} onChange={handleFileChange}/>
-                                <span className="file-cta"> Choose a file</span>
-                            {selectedFile.avatar?
+                            {!loading ?
                                 <>
+                                <input className="file-input" type="file" name="avatar" direct_upload="true" accept="image/png, image/jpeg" multiple={false} onChange={handleFileChange}/>
+                                <span className="file-cta"> Select File</span>
+                                {selectedFile.avatar ? 
+                                    <>
                                     <span className="file-name">{selectedFile.avatar.name}</span>
                                     <span className="button is-small is-danger" onClick={handleFileSubmit}>Change</span>
-                            </> : null}
+                                    </> : null
+                                }
+                                </> : null
+                            }
                             </label>
+                            </form>
                         </div>
                     </div>
                     </div><br/>

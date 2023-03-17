@@ -21,7 +21,7 @@ function Noods(){
         }
     }
 
-    const cards = noods.map(nood => <NoodCard key={nood.id} nood={nood}/>)
+    const noodCards = noods.map(nood => <NoodCard key={nood.id} nood={nood}/>)
 
     useEffect(()=>{
         if(!user){
@@ -34,8 +34,7 @@ function Noods(){
 
     return (
         <div>
-           <h1>Tasty Noods here</h1>
-           {cards}
+           {noodCards}
         </div>
        
     )

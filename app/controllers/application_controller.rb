@@ -23,7 +23,7 @@ private
   end
 
   def find_user
-    @user = User.find(session[:user_id])
+    @user = User.includes(:avatar_attachment).find(session[:user_id])
   end
 
 end

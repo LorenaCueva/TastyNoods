@@ -8,7 +8,8 @@ class User < ApplicationRecord
     has_many :pantries, :dependent => :destroy
 
     validates :username, presence: true
-    validates_uniqueness_of :username 
+    validates_uniqueness_of :username
+    # validates :password, presence: true 
 
     
 

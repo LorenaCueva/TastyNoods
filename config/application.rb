@@ -45,8 +45,5 @@ module TastyNoods
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
 
-    # config.active_storage.cloudinary_folder = {
-    #   avatar: AvatarUploader
-    # }
   end
 end
