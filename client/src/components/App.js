@@ -7,6 +7,7 @@ import User from './User';
 import Navbar from './Navbar';
 import Noods from './Noods';
 import Pantry from './Pantry';
+import NewNoodForm from './NewNoodForm';
 
 
 
@@ -25,6 +26,7 @@ function App() {
               <Route path='/user' element={<User/>}></Route>
               <Route path='/noods' element={<Noods/>}></Route>
               <Route path='/pantry' element={<Pantry/>}></Route>
+              <Route path='/noods/new' element={<NewNoodForm/>}></Route>
             </Route>
           </Routes>
         </BrowserRouter>

@@ -34,7 +34,7 @@ function Navbar(){
             method: "DELETE"
         })
         .then(setUser(null))
-        .then(navigate('/'))
+        .then(navigate('/logout'))
     }
 
     if(user){
@@ -67,7 +67,7 @@ function Navbar(){
                                     <p className="navbar-link">Admin</p>
                                     <div className="navbar-dropdown">
                                         <NavLink className="navbar-item">Review Comments</NavLink>
-                                        <NavLink className="navbar-item">Add Nood & Ratings</NavLink>
+                                        <NavLink className="navbar-item" to="/noods/new">Add Nood & Ratings</NavLink>
                                     </div>
                                 </div> : null}
                                 <button className="button is-danger" onClick={handleLogout}>

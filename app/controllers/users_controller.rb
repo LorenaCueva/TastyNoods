@@ -22,13 +22,14 @@ class UsersController < ApplicationController
 
     def set_avatar
         if params[:avatar].present?
+        begin
             @user.avatar.attach(params[:avatar])
             @user.update({avatar: params[:avatar]})
-            # @user.avatar.attach(io: params[:avatar], filename: params[:avatar].original_filename, content_type: params[:avatar].content_type)
-            # uploaded_file = @user.avatar.blob.url    
-            # Cloudinary::Uploader.upload(params[:avatar], :public_id => @user.avatar.key)
             @user.save      
             render json: @user, status: :ok
+        rescue StandardError => e
+            render json: {errors: ["Error uploading avatar: #{e.message}"] }, status: :internal_server_error
+        end
         end
     end
 

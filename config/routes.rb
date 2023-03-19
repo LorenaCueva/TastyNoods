@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :noods
+  resources :noods, except: [:show]
   resources :ratings
   resources :users, only: [:update, :destroy]
 
@@ -20,5 +20,5 @@ Rails.application.routes.draw do
   patch "/pantry/:id", to: "pantries#update"
   delete "/pantry/:id", to: "pantries#destroy"
 
-  get "/noods/:id/comments", to: "noods#comments"
+  get "/noods/:id", to: "noods#nood_with_comments"
 end

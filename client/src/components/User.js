@@ -28,34 +28,39 @@ function User(){
         }
     },[user])
 
-    // console.log(user)
-
     function handleFormChange(e){
+        setErrors([]);
         const name = e.target.name;
         const value = e.target.value;
         setFormData({...formData, [name]:value});
      }
      function handleFileChange(e){
+        setErrors([]);
         const file = e.target.files[0];
         setSelectedFile({avatar: file})
         setAvatar(URL.createObjectURL(file))
     };
   
-     async function handleFormSubmit(e){
-         e.preventDefault();
+    async function handleFormSubmit(e){
+        e.preventDefault();
             setFormData(clearFormData);
-            const response = await fetch(`/users/${user.id}`, {
-             method: "PATCH",
-             headers: {"Content-Type":"application/json"},
-             body: JSON.stringify(formData)
-            });
-            const data = await response.json();
-            if(response.ok){
-                setErrors(["Success!"])
+            if(formData.password){
+                const response = await fetch(`/users/${user.id}`, {
+                    method: "PATCH",
+                    headers: {"Content-Type":"application/json"},
+                    body: JSON.stringify(formData)
+                   });
+                   const data = await response.json();
+                   if(response.ok){
+                       setErrors(["Success!"])
+                   }
+                   else{
+                       setErrors(data.errors);
+                   }
             }
             else{
-                setErrors(data.errors);
-            }
+                setErrors(["Password can't be blank"])
+            }     
      }
 
      function handleFileSubmit(e){
@@ -116,8 +121,9 @@ function User(){
                         </div>
                     </div>
                     </div><br/>
-                    <div className="title has-text-grey is-5">Change Password</div>
+                    {!user.isAdmin ?
                     <form>
+                        <div className="title has-text-grey is-5">Change Password</div>
                         <div className="field">
                         <p className="control has-icons-left">
                             <input className="input" type="password" name="password" placeholder="New Password" value={formData.password} onChange={handleFormChange}/>
@@ -136,7 +142,7 @@ function User(){
                         </div>
                         <div className="pt-3"></div>
                         <button className="button is-block is-danger is-large is-fullwidth" onClick={handleFormSubmit}>Change Password</button>
-                        </form>
+                        </form> : null}
                         <div className="pt-3">{displayErrors}</div>
                     </div>
                 
