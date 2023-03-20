@@ -30,7 +30,7 @@ class RatingsController < ApplicationController
     private
 
     def rating_params
-        params.permit(:flavor, :broth_characteristic, :noodle_texture, :aroma, :packaging, :completeness_of_meal, :overal_rating, :notes)
+        params.permit(:flavor, :broth_characteristic, :noodle_texture, :aroma, :packaging, :completeness_of_meal, :overall_rating, :notes)
     end
 
     def find_rating

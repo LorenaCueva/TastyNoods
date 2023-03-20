@@ -35,8 +35,7 @@ function Login({isSignup = false, loggout = false}){
     },[user])
 
     function handleFormChange(e){
-       const name = e.target.name;
-       const value = e.target.value;
+        const { name, value } = e.target;
        setFormData({...formData, [name]:value});
     }
 

@@ -75,7 +75,7 @@ ActiveRecord::Schema.define(version: 2023_03_08_181452) do
   create_table "ratings", force: :cascade do |t|
     t.integer "nood_id"
     t.integer "user_id"
-    t.decimal "flavor", precision: 2, scale: 1
+    t.decimal "flavor_rating", precision: 2, scale: 1
     t.decimal "broth_characteristic", precision: 2, scale: 1
     t.decimal "noodle_texture", precision: 2, scale: 1
     t.decimal "aroma", precision: 2, scale: 1
