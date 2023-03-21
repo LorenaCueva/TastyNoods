@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :noods, except: [:show, :create]
   resources :ratings
   resources :users, only: [:update, :destroy]
+  resources :stores, only: [:index, :create]
 
   # Routing logic: fallback requests for React Router.
   # Leave this here to help deploy your app later!

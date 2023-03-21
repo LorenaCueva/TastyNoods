@@ -16,12 +16,19 @@ class Nood < ApplicationRecord
     validate :contents_has_noodles
     validates :cooking_time, presence: true
     validate :cooking_time_less_than_10_minutes
+    validate :cooking_time_0
 
     private
 
     def cooking_time_less_than_10_minutes
         if cooking_time && cooking_time > 10.minutes
             errors.add(:cooking_time, "must be less than 10 minutes")
+        end
+    end
+
+    def cooking_time_0
+        if cooking_time && cooking_time <= 0.seconds
+            errors.add(:cooking_time, "must be more than 0 seconds")
         end
     end
 

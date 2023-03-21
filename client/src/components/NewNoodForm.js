@@ -1,8 +1,19 @@
-// import { ErrorResponse } from "@remix-run/router";
-import { useState } from "react";
+import { useEffect, useState, useContext} from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "./UserContext"; 
 import ReactStars from "react-stars";
+import StoresForm from "./StoresForm";
 
 function NewNoodForm(){
+
+    const navigate = useNavigate();
+    const {user} = useContext(UserContext);
+
+    useEffect(()=>{
+        if(!user|| user.isAdmin === false){
+            navigate('/')
+        }
+    },[])
 
     const clearFormData = {
         brand: "",
@@ -28,8 +39,14 @@ function NewNoodForm(){
     
     const [formData, setFormData] = useState(clearFormData)
     const [ratingData, setRatingData] = useState(clearRatingData);
-    var [errors, setErrors] = useState({});    
-      
+    const [errors, setErrors] = useState({});
+    const [successMessage, setSuccessMessage] = useState(false);
+    const [stores, setStores] = useState([]);
+    
+    function toggleSuccessMessage(){
+        setSuccessMessage(!successMessage)
+    }
+          
     function handleFormChange(e) {
         const { name, value } = e.target;
         setFormData({
@@ -38,39 +55,35 @@ function NewNoodForm(){
         });
       }
     async function postData(to, sendData){
-        const response = await fetch(to, {
+        return await fetch(to, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(sendData)
         })
-        const data = await response.json();
-        return data  
     }
 
     async function handleFormSubmit(e){
         e.preventDefault();
-        console.log(formData);
-        console.log(ratingData);
-        console.log(calculateRating())
-        const dataToSend = {...formData, ...ratingData, overall_rating: calculateRating()}
-        console.log(dataToSend)
-        const data = await postData('/noods', dataToSend)
-        if(data.ok){
-           
-        //     const ratingData = await postData('/ratings', ratingData)
-            // if(ratingData.ok){
-                console.log("Yay!")
+            const dataToSend = {...formData, ...ratingData, overall_rating: calculateRating(), stores: stores}
+            const response = await postData('/noods', dataToSend);
+            const data = await response.json();
+            console.log(data)
+            if(response.ok){
+                console.log("data", data)
+                setFormData(clearFormData);
+                setRatingData(clearRatingData);
+                setErrors([]);
+                toggleSuccessMessage();
             }
             else{
                 setErrors(data.errors)
-            }
-        // }
-        // else{
-        //     setErrors(data.errors)
-        // }
-    }
+                if(stores.length == 0){
+                    setErrors({...data.errors, stores: ["add stores"]});
+            }   }
+        }
+
     function ratingChanged(newRating, field){
         console.log(field, newRating);
         setRatingData({...ratingData, 
@@ -89,6 +102,7 @@ function NewNoodForm(){
         e.preventDefault();
         setFormData(clearFormData);
         setRatingData(clearRatingData);
+        setErrors([]);
     }
 
     function hasErrors(field) {
@@ -137,38 +151,28 @@ function NewNoodForm(){
             </p>
             </div>
         </div>
-        {/* <div className="field">
-            <label className="label">Price</label>
-            <div className="control">
-            <input className="input" type="text" placeholder="e.g. 3.99" name="price" value={formData.price} onChange={handleFormChange}/>
-            </div>
-        </div> */}
         <div className="field">
-    <label className="label">Price</label>
-    <div className="control has-icons-left">
-        <span className="icon is-left">$</span>
-        <input className="input" type="number" placeholder="e.g. 3.99" name="price" value={formData.price} onChange={handleFormChange}/>
-        <p className="help is-danger">
-            {hasErrors("price")}
-        </p>
-    </div>
+        <label className="label">Price</label>
+        <div className="control has-icons-left">
+            <span className="icon is-left">$</span>
+            <input className="input" type="number" placeholder="e.g. 3.99" name="price" value={formData.price} onChange={handleFormChange}/>
+            <p className="help is-danger">
+                {hasErrors("price")}
+            </p>
+        </div>
     </div>
 
     <div className="field is-expanded">
         <label className="label">Contents <span className="is-size-7 has-text-grey">(Separated by commas. Must Include Noodles)</span></label>
             <div className="field">
-                {/* <p className="control">
-                    <a className="button is-static">Noodles,</a>
-                </p> */}
                 <p className="control is-expanded">
-                    <input type="text" className="input" placeholder="e.g, Powdered Flavor, Oil" name="contents" value={formData.contents} onChange={handleFormChange}/>
+                    <input type="text" className="input" placeholder="e.g. Noodles, Powdered Flavor, Oil" name="contents" value={formData.contents} onChange={handleFormChange}/>
                 </p>
             </div>
             <p className="help is-danger">
                 {hasErrors("contents")}
             </p>
     </div>
-
       <div className="field">
         <label className="label">Cooking Time <span className="is-size-7 has-text-grey">(max 10 mins)</span></label>
         <div className="field has-addons">
@@ -176,7 +180,7 @@ function NewNoodForm(){
             <a className="button is-static">MM:SS</a>
         </p>
         <div className="control">
-          <input  type="number" className="input" min={1} max={10} placeholder="1" name="minutes" value={formData.minutes} onChange={handleFormChange}/>
+          <input  type="number" className="input" min={0} max={10} placeholder="1" name="minutes" value={formData.minutes} onChange={handleFormChange}/>
         </div>
         <p className="control">
             <a className="button is-static">:</a>
@@ -189,11 +193,18 @@ function NewNoodForm(){
         </div>
         </div>
       </div>
-      
+    <div>
+        <section>
+            <label className="label">Found At:  <span className="is-size-7 has-text-grey">(Select all that apply)</span></label>
+            <StoresForm storesList={setStores}/>
+            <p className="help is-danger">
+            {hasErrors("stores")}
+          </p>
+        </section>
     </div>
-
-
-  </div>
+</div>
+</div>
+  
 <div className="columns is-centered">
     <div className="column is-8">
   <div className="field">
@@ -258,7 +269,7 @@ function NewNoodForm(){
   <div className="field">
     <label className="label">Overall Rating</label>
     <div className="control">
-      <ReactStars count={5} edit={false} value={calculateRating()} size={50} color2={'#ffd700'} />
+      <ReactStars count={5} edit={false} value={calculateRating()} size={50} color2={'#ffA500'} />
     </div>
   </div>
 
@@ -283,6 +294,23 @@ function NewNoodForm(){
 </div>
 </div>
 </form>
+ 
+<div className={`modal ${successMessage ? "is-active": ""} has-text-centered`}>
+  <div className="modal-background"></div>
+  <div className="modal-card">
+    <header className="modal-card-head ">
+      <p className="modal-card-title">Oh my!</p>
+      <button className="delete" aria-label="close" onClick={toggleSuccessMessage}></button>
+    </header>
+    <section className="modal-card-body">
+    NEW TASTY NOOD ADDED!
+    </section>
+    <footer className="modal-card-foot">
+      <button className="button is-danger" onClick={toggleSuccessMessage}>Add More</button>
+      <button className="button is-danger" onClick={()=>navigate('/noods')}>Go to Noods</button>
+    </footer>
+  </div>
+</div>
 </div>
 
 
