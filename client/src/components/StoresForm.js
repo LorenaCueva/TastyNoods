@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import 'bulma/css/bulma.min.css';
 
-function StoresForm({storesList}) {
+function StoresForm({storesList, noodId}) {
 
 const [stores, setStores] = useState([]);
 
@@ -9,6 +9,9 @@ const [stores, setStores] = useState([]);
     fetch('/stores')
     .then(r => r.json())
     .then(data=> setStores(data))
+    if(noodId){
+        console.log(noodId)
+    }
   },[])
 
   const [selectedStores, setSelectedStores] = useState([]);
@@ -48,7 +51,7 @@ const [stores, setStores] = useState([]);
           setStores([...stores, newStore]);
           setNewStoreName('');
         } else {
-          setErrors(data);
+          setErrors(data.errors);
         }
     }
   };
@@ -70,6 +73,9 @@ const [stores, setStores] = useState([]);
                 <label className="label">Add a store:</label>
                 <div className="control">
                   <input className="input" type="text" value={newStoreName} onChange={handleNewStoreNameChange} placeholder="Store name" />
+                  <p className="help is-danger">
+                    {errors ? errors.name : null}
+                    </p>
                 </div>
               </div>
               <div className="field">
