@@ -1,5 +1,5 @@
 class Nood < ApplicationRecord
-    # has_many_attached :photos
+    has_many_attached :pictures
     attribute :cooking_time, :interval
     has_one :rating, :dependent => :destroy
     has_many :pantries, :dependent => :destroy

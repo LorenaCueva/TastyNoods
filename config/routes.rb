@@ -23,4 +23,5 @@ Rails.application.routes.draw do
 
   get "/noods/:id", to: "noods#nood_with_comments"
   post "/noods", to: "nood_with_review#create"
+  patch "/noods/:id/pictures", to: "noods#set_pictures"
 end

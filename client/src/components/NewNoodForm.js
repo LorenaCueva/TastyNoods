@@ -3,17 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "./UserContext"; 
 import ReactStars from "react-stars";
 import StoresForm from "./StoresForm";
+import ImageUploadModal from "./ImageUploadModal";
+
 
 function NewNoodForm(){
 
     const navigate = useNavigate();
     const {user} = useContext(UserContext);
-
-    useEffect(()=>{
-        if(!user|| user.isAdmin === false){
-            navigate('/')
-        }
-    },[])
+    
+    const [errors, setErrors] = useState({});
+    const [openModal, setOpenModal] = useState(false);
+    const [stores, setStores] = useState([]);
+    const [noodId, setNoodId] = useState(null);
 
     const clearFormData = {
         brand: "",
@@ -36,15 +37,19 @@ function NewNoodForm(){
         completeness_of_meal: 0,
         overall_rating: 0,
     }
-    
+
     const [formData, setFormData] = useState(clearFormData)
     const [ratingData, setRatingData] = useState(clearRatingData);
-    const [errors, setErrors] = useState({});
-    const [successMessage, setSuccessMessage] = useState(false);
-    const [stores, setStores] = useState([]);
+
+    useEffect(()=>{
+        if(!user|| user.isAdmin === false){
+            navigate('/')
+        }
+    },[])
     
-    function toggleSuccessMessage(){
-        setSuccessMessage(!successMessage)
+    
+    function toggleOpenModal(){
+        setOpenModal(!openModal)
     }
           
     function handleFormChange(e) {
@@ -66,23 +71,27 @@ function NewNoodForm(){
 
     async function handleFormSubmit(e){
         e.preventDefault();
-            const dataToSend = {...formData, ...ratingData, overall_rating: calculateRating(), stores: stores}
+            if(stores.length == 0 ){
+                setErrors({stores: ["add stores"]});
+            }
+            else{
+                const dataToSend = {...formData, ...ratingData, overall_rating: calculateRating(), stores: stores}
             const response = await postData('/noods', dataToSend);
             const data = await response.json();
             console.log(data)
             if(response.ok){
                 console.log("data", data)
+                setNoodId(data.id)
                 setFormData(clearFormData);
                 setRatingData(clearRatingData);
+                toggleOpenModal();
                 setErrors([]);
-                toggleSuccessMessage();
             }
             else{
                 setErrors(data.errors)
-                if(stores.length == 0){
-                    setErrors({...data.errors, stores: ["add stores"]});
-            }   }
-        }
+            }
+        }   
+    }
 
     function ratingChanged(newRating, field){
         console.log(field, newRating);
@@ -92,11 +101,11 @@ function NewNoodForm(){
     }
 
     function calculateRating(){
-        const val = Object.values(ratingData)
-        const total = val.reduce((t, n) => t + n)
-        return total/val.length
+        const val = Object.values(ratingData);
+        val.pop();
+        const total = val.reduce((t, n) => t + n);
+        return total/val.length;
     }
-    
     
     function handleFormCancel(e){
         e.preventDefault();
@@ -108,10 +117,13 @@ function NewNoodForm(){
     function hasErrors(field) {
         return errors && errors[field] ? errors[field].join(", ") : null;
       }
-      
-    
+
+ 
   return(
-<div>
+    <div>
+    <div className="has-text-centered">
+        <h1 className="title">New Nood!</h1>
+    </div>
     <form onSubmit={handleFormSubmit}>
     <div className="columns is-centered">
         <div className="column is-8">
@@ -204,7 +216,6 @@ function NewNoodForm(){
     </div>
 </div>
 </div>
-  
 <div className="columns is-centered">
     <div className="column is-8">
   <div className="field">
@@ -273,6 +284,7 @@ function NewNoodForm(){
     </div>
   </div>
 
+
   <div className="field">
     <label className="label">Notes</label>
     <div className="control">
@@ -294,23 +306,9 @@ function NewNoodForm(){
 </div>
 </div>
 </form>
- 
-<div className={`modal ${successMessage ? "is-active": ""} has-text-centered`}>
-  <div className="modal-background"></div>
-  <div className="modal-card">
-    <header className="modal-card-head ">
-      <p className="modal-card-title">Oh my!</p>
-      <button className="delete" aria-label="close" onClick={toggleSuccessMessage}></button>
-    </header>
-    <section className="modal-card-body">
-    NEW TASTY NOOD ADDED!
-    </section>
-    <footer className="modal-card-foot">
-      <button className="button is-danger" onClick={toggleSuccessMessage}>Add More</button>
-      <button className="button is-danger" onClick={()=>navigate('/noods')}>Go to Noods</button>
-    </footer>
-  </div>
-</div>
+
+<ImageUploadModal noodId={noodId} openModal={openModal} toggleOpenModal={toggleOpenModal}/>
+
 </div>
 
 
