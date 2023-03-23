@@ -27,6 +27,7 @@ function App() {
               <Route path='/noods' element={<Noods/>}></Route>
               <Route path='/pantry' element={<Pantry/>}></Route>
               <Route path='/noods/new' element={<NewNoodForm/>}></Route>
+              {/* <Route path='/noods/edit' element={<NewNoodForm/>}></Route> */}
             </Route>
           </Routes>
         </BrowserRouter>

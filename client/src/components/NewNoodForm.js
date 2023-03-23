@@ -6,7 +6,7 @@ import StoresForm from "./StoresForm";
 import ImageUploadModal from "./ImageUploadModal";
 
 
-function NewNoodForm(){
+function NewNoodForm({noodId}){
 
     const navigate = useNavigate();
     const {user} = useContext(UserContext);
@@ -14,7 +14,8 @@ function NewNoodForm(){
     const [errors, setErrors] = useState({});
     const [openModal, setOpenModal] = useState(false);
     const [stores, setStores] = useState([]);
-    const [noodId, setNoodId] = useState(null);
+    const [newNoodID, setnewNoodID] = useState(null);
+    const [clearForm, setClearForm] = useState(false)
 
     const RATINGS = [
         { label: "Flavor", name: "flavor_rating" },
@@ -24,7 +25,7 @@ function NewNoodForm(){
         { label: "Packaging", name: "packaging" },
         { label: "Completeness of Meal", name: "completeness_of_meal" },
       ]
-
+    
     const clearFormData = {
         brand: "",
         flavor: "",
@@ -55,8 +56,38 @@ function NewNoodForm(){
             navigate('/')
         }
     },[])
-    
-    
+
+    useEffect(()=>{
+        fetch(`/noodReview/${noodId}`)
+        .then(r => r.json())
+        .then(data => {
+            setFormData({
+                brand: data.brand,
+                flavor: data.flavor,
+                nood_type: data.nood_type,
+                cuisine: data.cuisine,
+                price: data.price,
+                contents: data.contents.join(", "),
+                cooking_time: "",
+                minutes: data.minutes,
+                seconds: data.seconds,
+                notes: data.rating.notes
+            })
+            setRatingData({
+                flavor_rating: Number(data.rating.flavor_rating),
+                broth_characteristic: Number(data.rating.broth_characteristic),
+                noodle_texture: Number(data.rating.noodle_texture),
+                aroma: Number(data.rating.aroma),
+                packaging: Number(data.rating.packaging),
+                completeness_of_meal: Number(data.rating.completeness_of_meal),
+                overall_rating: Number(data.rating.overall_rating),
+            })
+            setStores(data.stores.map(store => store.id))
+            console.log(data)
+        }).catch(errors => console.log(errors))
+    },[noodId])
+
+      
     function toggleOpenModal(){
         setOpenModal(!openModal)
     }
@@ -90,7 +121,7 @@ function NewNoodForm(){
             console.log(data)
             if(response.ok){
                 console.log("data", data)
-                setNoodId(data.id)
+                setnewNoodID(data.id)
                 setFormData(clearFormData);
                 setRatingData(clearRatingData);
                 toggleOpenModal();
@@ -119,6 +150,7 @@ function NewNoodForm(){
         e.preventDefault();
         setFormData(clearFormData);
         setRatingData(clearRatingData);
+        setClearForm(true);
         setErrors([]);
     }
 
@@ -201,7 +233,7 @@ function NewNoodForm(){
             <div>
                 <section>
                     <label className="label">Found At:  <span className="is-size-7 has-text-grey">(Select all that apply)</span></label>
-                    <StoresForm noodId={noodId} storesList={setStores}/>
+                    <StoresForm clearForm={clearForm} storesList={setStores} setClearForm={setClearForm} editStoresList={stores}/>
                     <p className="help is-danger">{hasErrors("stores")}</p>
                 </section>
             </div>
@@ -259,7 +291,8 @@ function NewNoodForm(){
     </div>
 </form>
 
-<ImageUploadModal noodId={noodId} openModal={openModal} toggleOpenModal={toggleOpenModal}/>
+<ImageUploadModal newNoodID={newNoodID} openModal={openModal} toggleOpenModal={toggleOpenModal}/>
+
 
 </div>
 

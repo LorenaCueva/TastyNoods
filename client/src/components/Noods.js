@@ -17,10 +17,17 @@ function Noods(){
         const data = await response.json();
         if(response.ok){
             setNoods(data);
+            console.log(data)
         }
         else{
             console.log(data.errors)
         }
+    }
+
+    function handleDeleteNood(id){
+        // console.log("delete", id)
+        const newNoodList = noods.filter(nood => nood.id != id);
+        setNoods(newNoodList);
     }
 
     function toggleShowReview(id){
@@ -28,7 +35,7 @@ function Noods(){
     }
 
     let noodsToRender = showReview? noods.filter(nood => nood.id === showReview) : noods
-    const noodCardsToRender = noodsToRender.map(nood => <NoodCard key={nood.id} nood={nood} onClick={toggleShowReview}/>)
+    const noodCardsToRender = noodsToRender.map(nood => <NoodCard key={nood.id} nood={nood} onClick={toggleShowReview} onDeleteNood={handleDeleteNood}/>)
 
     useEffect(()=>{
         if(!user){

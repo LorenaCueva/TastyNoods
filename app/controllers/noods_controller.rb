@@ -35,7 +35,6 @@ class NoodsController < ApplicationController
             render json: @nood, status: :ok
           rescue StandardError => e
             render json: { error: "Error uploading pictures: #{e.message}" }, status: :internal_server_error
-            # render json: { error: "Error uploading pictures:" }, status: :internal_server_error
           end
         end
     end

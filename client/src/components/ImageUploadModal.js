@@ -15,7 +15,7 @@ function ImageUploadModal({noodId, openModal, toggleOpenModal}){
             <div className="modal-card">
                 <header className="modal-card-head ">
                 <p className="modal-card-title">Oh My, Nood Added</p>
-                <button className="delete" aria-label="close" onClick={toggleOpenModal}></button>
+                {/* <button className="delete" aria-label="close" onClick={toggleOpenModal}/> */}
                 </header>
                 <section className="modal-card-body">
                 {imageUploadIsSucces == null ? null :

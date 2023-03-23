@@ -1,23 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import 'bulma/css/bulma.min.css';
 
-function StoresForm({storesList, noodId}) {
+function StoresForm({storesList, editStoresList, clearForm, setClearForm}) {
 
 const [stores, setStores] = useState([]);
+const [selectedStores, setSelectedStores] = useState([]);
+const [newStoreName, setNewStoreName] = useState('');
+const [errors, setErrors] = useState([]);
+
 
   useEffect(()=>{
     fetch('/stores')
     .then(r => r.json())
     .then(data=> setStores(data))
-    if(noodId){
-        console.log(noodId)
-    }
   },[])
 
-  const [selectedStores, setSelectedStores] = useState([]);
-  const [newStoreName, setNewStoreName] = useState('');
-  const [errors, setErrors] = useState([]);
+  useEffect(()=>{
+    if(clearForm){
+        setSelectedStores([]);
+        storesList([]);
+        setClearForm(false)
+    }
+  },[clearForm])
 
+  useEffect(()=>{
+    if(editStoresList){
+        setSelectedStores(editStoresList)
+    }
+  },[editStoresList])
+
+  
   function handleCheckboxChange(e, index){
     const newSelectedStores = [...selectedStores];
     if (e.target.checked) {

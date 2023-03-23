@@ -1,6 +1,6 @@
 class NoodWithReviewController < ApplicationController
-    before_action :authorize_logged
-    before_action :authorize_admin
+    # before_action :authorize_logged
+    # before_action :authorize_admin
 
     # def create
     #     contents_array = nood_params[:contents].downcase.split(", ")
@@ -26,18 +26,9 @@ class NoodWithReviewController < ApplicationController
     #     end
     # end
 
-    def set_pictures
-        if params[:pictures].present?
-          begin
-            @nood.pictures.attach(params[:pictures])
-            byebug
-            @nood.update({pictures: params[:pictures]})
-            @nood.save
-            render json: @nood, status: :ok
-          rescue StandardError => e
-            render json: { errors: ["Error uploading pictures: #{e.message}"] }, status: :internal_server_error
-          end
-        end
+    def show
+        nood = Nood.find(params[:id])
+        render json: nood, serializer: NoodRatingSerializer
     end
 
     def create
@@ -92,6 +83,10 @@ end
 
 def rating_params
     params.permit(:flavor_rating, :broth_characteristic, :noodle_texture, :aroma, :packaging, :completeness_of_meal, :overall_rating, :notes)
+end
+
+def find_nood
+    @nood = Nood.find(params[:id])
 end
 
 end

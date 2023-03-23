@@ -68,6 +68,7 @@ function Navbar(){
                                     <div className="navbar-dropdown">
                                         <NavLink className="navbar-item">Review Comments</NavLink>
                                         <NavLink className="navbar-item" to="/noods/new">Add Nood & Ratings</NavLink>
+                                        {/* <NavLink className="navbar-item" to="/noods/edit">Edit Noods</NavLink> */}
                                     </div>
                                 </div> : null}
                                 <button className="button is-danger" onClick={handleLogout}>
