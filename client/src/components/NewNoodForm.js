@@ -14,7 +14,7 @@ function NewNoodForm({noodId}){
     const [errors, setErrors] = useState({});
     const [openModal, setOpenModal] = useState(false);
     const [stores, setStores] = useState([]);
-    const [newNoodID, setnewNoodID] = useState(null);
+    const [newNoodID, setNewNoodID] = useState(null);
     const [clearForm, setClearForm] = useState(false)
 
     const RATINGS = [
@@ -58,6 +58,7 @@ function NewNoodForm({noodId}){
     },[])
 
     useEffect(()=>{
+        if(noodId){
         fetch(`/noodReview/${noodId}`)
         .then(r => r.json())
         .then(data => {
@@ -84,12 +85,13 @@ function NewNoodForm({noodId}){
             })
             setStores(data.stores.map(store => store.id))
             console.log(data)
-        }).catch(errors => console.log(errors))
+        }).catch(errors => console.log(errors))}
     },[noodId])
 
       
     function toggleOpenModal(){
         setOpenModal(!openModal)
+        setClearForm(true);
     }
           
     function handleFormChange(e) {
@@ -99,9 +101,9 @@ function NewNoodForm({noodId}){
           [name]: value,
         });
       }
-    async function postData(to, sendData){
+    async function postData(to, sendData, method){
         return await fetch(to, {
-            method: "POST",
+            method: method,
             headers: {
                 "Content-Type": "application/json"
             },
@@ -115,16 +117,18 @@ function NewNoodForm({noodId}){
                 setErrors({stores: ["add stores"]});
             }
             else{
-                const dataToSend = {...formData, ...ratingData, overall_rating: calculateRating(), stores: stores}
-            const response = await postData('/noods', dataToSend);
+            const dataToSend = {...formData, ...ratingData, overall_rating: calculateRating(), stores: stores}
+            const response = noodId ? await postData(`/noods/${noodId}`, dataToSend, "PATCH") : await postData('/noods', dataToSend, "POST")
             const data = await response.json();
             console.log(data)
             if(response.ok){
                 console.log("data", data)
-                setnewNoodID(data.id)
+                setNewNoodID(data.id)
                 setFormData(clearFormData);
                 setRatingData(clearRatingData);
                 toggleOpenModal();
+                setClearForm(true);
+                setStores([]);
                 setErrors([]);
             }
             else{
@@ -151,6 +155,7 @@ function NewNoodForm({noodId}){
         setFormData(clearFormData);
         setRatingData(clearRatingData);
         setClearForm(true);
+        setStores([]);
         setErrors([]);
     }
 
@@ -281,7 +286,7 @@ function NewNoodForm({noodId}){
 
         <div className="field is-grouped is-grouped-centered">
             <div className="control">
-                <button className="button is-danger">Add Rating</button>
+                <button className="button is-danger">{noodId ? "Update Nood" : "Add Rating"}</button>
             </div>
             <div className="control">
                 <button className="button is-text" onClick={handleFormCancel}>Clear Form</button>
@@ -291,7 +296,7 @@ function NewNoodForm({noodId}){
     </div>
 </form>
 
-<ImageUploadModal newNoodID={newNoodID} openModal={openModal} toggleOpenModal={toggleOpenModal}/>
+<ImageUploadModal noodId={newNoodID} openModal={openModal} toggleOpenModal={toggleOpenModal} clearForm={clearForm} isEdit={noodId ? noodId : null}/>
 
 
 </div>
