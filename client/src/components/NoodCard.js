@@ -1,50 +1,40 @@
-import { useState } from "react";
-import DeleteNoodModal from "./DeleteNoodModal"
-import NewNoodForm from "./NewNoodForm";
+import ReactStars from "react-stars";
 
 
 function NoodCard({nood, onClick, onDeleteNood}){
 
-  const [showDeleteModal, setsShowDeleteModal] = useState(false);
-  const [showEditForm, setShowEditForm] = useState(false)
+
 
   function handleCardClick(id){
     onClick(id)
   }
 
-  function handleEditClick(){
+  async function handleAddToPantryClick(){
     console.log(nood.id)
-    setShowEditForm(!showEditForm)
-  }
-
-  function handleDeleteClick(){
-    setsShowDeleteModal(true);
-  }
-
-  function onCancelDelete(){
-    setsShowDeleteModal(false)
+    const response = await fetch('/pantry', {
+      method: "POST",
+      headers:{"Content-Type" : "application/json"},
+      body: JSON.stringify({nood_id: nood.id})
+    })
+    const data = await response.json();
+    if(response.ok){
+      console.log(data)
+    }
+    else{
+      console.log(data.errors)
+    }
   }
 
     return(
 
-    showEditForm ? <NewNoodForm noodId={nood.id}/> :
 
-        <div>
-<div style={{ position: 'relative' }}>
-  <i
+  <div>
+  <div style={{ position: 'relative' }}>
+    <i
     className="material-icons is-clickable"
     style={{ position: 'absolute', top: 0, right: 40 }}
-    onClick={() => handleEditClick(nood.id)}
-  >
-    edit
-  </i>
-  <i
-    className="material-icons is-clickable"
-    style={{ position: 'absolute', top: 0, right: 70 }}
-    onClick={() => handleDeleteClick(nood.id)}
-  >
-    delete
-  </i>
+    onClick={handleAddToPantryClick}>add
+    </i>
   <section className="section is-clickable" onClick={() => handleCardClick(nood.id)}>
   <div className="columns">
     <div className="column">
@@ -60,10 +50,22 @@ function NoodCard({nood, onClick, onDeleteNood}){
         </div>
         <div className="tile is-parent is-8">
           <article className="tile is-child notification is-danger">
+            <p className="subtitle">{nood.nood_type.toUpperCase()}</p>
+            {/* <br/> */}
             <p className="title">{nood.brand}</p>
             <p className="subtitle">{nood.flavor}</p>
+            <p>{nood.short_notes}</p>
+            <br/>
             <div className="content">
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.</p>
+            <p className="subtitle"> Overall Rating</p>
+            <div className="is-centered">
+                  <ReactStars
+                  count={5}
+                  edit={false}
+                  value={Number(nood.overall_rating)}
+                  size={40}
+                  />
+              </div>
             </div>
           </article>
         </div>
@@ -72,8 +74,6 @@ function NoodCard({nood, onClick, onDeleteNood}){
   </div>
 </section>
 </div>
-
-{showDeleteModal ? <DeleteNoodModal nood={nood} onDelete={onDeleteNood} onCancelDelete={onCancelDelete}/> : null}
 
 
 

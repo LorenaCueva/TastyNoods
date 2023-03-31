@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_08_181452) do
+ActiveRecord::Schema.define(version: 2023_03_25_204241) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,7 +67,7 @@ ActiveRecord::Schema.define(version: 2023_03_08_181452) do
     t.integer "nood_id"
     t.decimal "rating", precision: 2, scale: 1
     t.string "comments"
-    t.boolean "flagged", default: true
+    t.boolean "flagged", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

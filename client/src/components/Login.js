@@ -69,16 +69,17 @@ function Login({isSignup = false, loggout = false}){
      }
     
     return(
-        <div className="hero is-fullheight is-primary">
+        <div className="hero is-fullheight" style={{ backgroundImage: "url(../noodles.jpeg)" }}>
             <div className="hero-body">
             <div className="has-text-centered">
                 <div className="columns">
                 <div className="column is-half is-offset-one-quarter">
-                    <h3 className="title has-text-white">{message}</h3>
-                    <p className="subtitle has-text-white">{`Please ${message} to see our cool stuff!`}</p>
+                    
                     <div className="box">
+                    <h3 className="title " style={{ color: 'orange' }}>{message}</h3>
+                    <p className="subtitle" style={{ color: 'orange' }}>{`${message} to see our tasty noods!`}</p>
                     <img id="panda" src="https://static.vecteezy.com/system/resources/previews/000/599/203/original/vector-panda-logo-black-and-white-head.jpg" alt="panda" style={{width: "60%"}}/>
-                    <div className="title has-text-grey is-5">Please enter your email and password.</div>
+                    <div className="title is-5" style={{ color: 'orange' }}>Please enter your email and password.</div>
                     <form>
                         <div className="field">
                         <p className="control has-icons-left">
@@ -113,7 +114,7 @@ function Login({isSignup = false, loggout = false}){
                     </div>
                     <div/>
                 </div>
-                    <button className="button is-primary" onClick={toggleRegister}>{signup ? "LogIn" : "Signup"}</button>
+                    <button className="button is-primary" onClick={toggleRegister} style={{ fontSize: "1.2rem" }}>{signup ? "LogIn" : "Signup"}</button>
                 </div>
             </div>
             </div>

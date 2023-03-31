@@ -8,6 +8,7 @@ import Navbar from './Navbar';
 import Noods from './Noods';
 import Pantry from './Pantry';
 import NewNoodForm from './NewNoodForm';
+import ReviewComments from './ReviewComments';
 
 
 
@@ -27,7 +28,7 @@ function App() {
               <Route path='/noods' element={<Noods/>}></Route>
               <Route path='/pantry' element={<Pantry/>}></Route>
               <Route path='/noods/new' element={<NewNoodForm/>}></Route>
-              {/* <Route path='/noods/edit' element={<NewNoodForm/>}></Route> */}
+              <Route path='/comments/review' element={<ReviewComments/>}></Route>
             </Route>
           </Routes>
         </BrowserRouter>

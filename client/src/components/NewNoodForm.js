@@ -4,9 +4,10 @@ import { UserContext } from "./UserContext";
 import ReactStars from "react-stars";
 import StoresForm from "./StoresForm";
 import ImageUploadModal from "./ImageUploadModal";
+import { RATINGS } from "./Ratings";
 
 
-function NewNoodForm({noodId}){
+function NewNoodForm({noodId, onCancel = null}){
 
     const navigate = useNavigate();
     const {user} = useContext(UserContext);
@@ -17,15 +18,6 @@ function NewNoodForm({noodId}){
     const [newNoodID, setNewNoodID] = useState(null);
     const [clearForm, setClearForm] = useState(false)
 
-    const RATINGS = [
-        { label: "Flavor", name: "flavor_rating" },
-        { label: "Broth Characteristic", name: "broth_characteristic" },
-        { label: "Noodle Texture", name: "noodle_texture" },
-        { label: "Aroma", name: "aroma" },
-        { label: "Packaging", name: "packaging" },
-        { label: "Completeness of Meal", name: "completeness_of_meal" },
-      ]
-    
     const clearFormData = {
         brand: "",
         flavor: "",
@@ -149,25 +141,36 @@ function NewNoodForm({noodId}){
         const total = val.reduce((t, n) => t + n);
         return total/val.length;
     }
-    
-    function handleFormCancel(e){
-        e.preventDefault();
+
+    function cancelForm(){
         setFormData(clearFormData);
         setRatingData(clearRatingData);
         setClearForm(true);
         setStores([]);
         setErrors([]);
+    
+    }
+    
+    function handleFormCancel(e){
+        e.preventDefault();
+        cancelForm();
     }
 
     function hasErrors(field) {
         return errors && errors[field] ? errors[field].join(", ") : null;
       }
+    
+      function handleCancelClick(){
+       cancelForm();
+        onCancel();
+      }
 
  
   return(
     <div>
+    {onCancel ? <button className="delete is-large is-pulled-right" onClick={handleCancelClick}></button> : null}
     <div className="has-text-centered">
-        <h1 className="title">New Nood!</h1>
+        <h1 className="title">{onCancel ? "Edit Nood!" : "New Nood!"}</h1>
     </div>
     <form onSubmit={handleFormSubmit}>
     <div className="columns is-centered">

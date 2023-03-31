@@ -1,18 +1,22 @@
 import { UserContext } from "./UserContext";
 import { useContext, useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
+import PantryCard from "./PantryCard";
+import Search from "./Search";
 
 function Pantry(){
 
     const { user } = useContext(UserContext);
-    const [pantry, setPantry] = useState([]);
+    const [pantryItems, setPantryItems] = useState([]);
+    const [search, setSearch] = useState("");
     const navigate = useNavigate();
 
     async function fetchPantry(){
         const response = await fetch('/pantry')
         const data = await response.json();
         if(response.ok){
-            setPantry(data);
+            console.log(data)
+            setPantryItems(data);
         }
         else{
             console.log(data.errors)
@@ -28,10 +32,32 @@ function Pantry(){
         }
     },[])
 
+    function handleDeleteItem(id){
+       const newPantry = pantryItems.filter(item => item.id !== id);
+       setPantryItems(newPantry);
+    }
+
+    function handleEditItem(editedItem){
+        const newPantry = pantryItems.map(item => item.id === editedItem.id ? editedItem : item)
+        setPantryItems(newPantry);
+    }
+
+   const filteredItems = pantryItems.filter(item => item.nood.brand.toLowerCase().includes(search.toLowerCase()) || item.nood.flavor.toLowerCase().includes(search.toLowerCase()))
+
+  const pantryItemsToRender = filteredItems.map(item => (
+    <PantryCard item={item} key={item.id} onDelete={handleDeleteItem} onEdit={handleEditItem}/>
+  ))
+
+//   const filteredItems = pantryItemsToRender.filter(item => item.nood.brand.includes(search) || item.nood.flavor.includes(search))
+
     return(
-        <h1>
-            Pantries
-        </h1>
+        <div>
+            <Search search={search} setSearch={setSearch}/>
+            {pantryItemsToRender.length === 0 ? <h1 className="title has-text-centered">Uh oh, no noods found. Time to broaden your search.</h1> : 
+            <div className="columns is-multiline">
+                {pantryItemsToRender}
+            </div>}
+        </div>
     )
 }
 export default Pantry;

@@ -91,12 +91,12 @@ function User(){
     
     if(user){
         return(
-            <div>
-            <section>
+            <div style={{ backgroundImage: "url(../noodles.jpeg)" }}>
+            <section >
             <div className="columns has-text-centered">
-                <div className="column is-half is-offset-one-quarter">Blas
-                    <div className="box">
-                    <div className="title has-text-grey is-5">Change Avatar</div>
+                <div className="column is-half is-offset-one-quarter">
+                    <div className="box" >
+                    <div className="title is-4" style={{ color: 'orange' }}>Change Avatar</div>
                     <img id="panda" src={avatar} alt="avatar" width="150"/>
                     {loading ? <progress className="progress is-danger mt-5" max="100"></progress> : null}
                     <div className="level">
@@ -123,7 +123,7 @@ function User(){
                     </div><br/>
                     {!user.isAdmin ?
                     <form>
-                        <div className="title has-text-grey is-5">Change Password</div>
+                        <div className="title is-4" style={{ color: 'orange' }}>Change Password</div>
                         <div className="field">
                         <p className="control has-icons-left">
                             <input className="input" type="password" name="password" placeholder="New Password" value={formData.password} onChange={handleFormChange}/>

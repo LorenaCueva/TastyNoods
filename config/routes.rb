@@ -29,4 +29,8 @@ Rails.application.routes.draw do
 
   get "/noodReview/:id", to: "nood_with_review#show"
 
+  get "/comments", to: "comments#index"
+  patch "/comments/:id", to: "comments#accept_comment"
+  delete "/comments/:id", to: "comments#destroy"
+
 end

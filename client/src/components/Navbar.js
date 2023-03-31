@@ -52,23 +52,22 @@ function Navbar(){
                     <div className={`navbar-menu ${isActive ? 'is-active' : ''}`}>
                         <div className="navbar-start">
                             <div className="navbar-item has-dropdown is-hoverable">
-                                <p className="navbar-link">{user.username}</p>
+                                <p className="navbar-link" style={{ fontSize: "1.5rem" }}>{user.username}</p>
                                 <div className="navbar-dropdown">
                                     <NavLink className="navbar-item" to="/user">Profile</NavLink>
                                 </div>
                             </div>
-                            <NavLink className="navbar-item" to="/noods">Tasty Noods</NavLink>
-                            <NavLink className="navbar-item" to="/pantry">My Pantry</NavLink>
+                            <NavLink className="navbar-item" to="/noods" style={{ fontSize: "1.5rem" }}>Tasty Noods</NavLink>
+                            <NavLink className="navbar-item" to="/pantry" style={{ fontSize: "1.5rem" }}>My Pantry</NavLink>
                         </div>
                         <div className="navbar-end">
                             <div className="navbar-item">
                                 {user.isAdmin?
                                 <div className="navbar-item has-dropdown is-hoverable">
-                                    <p className="navbar-link">Admin</p>
+                                    <p className="navbar-link" style={{ fontSize: "1.5rem" }}>Admin</p>
                                     <div className="navbar-dropdown">
-                                        <NavLink className="navbar-item">Review Comments</NavLink>
+                                        <NavLink className="navbar-item" to="/comments/review">Review Comments</NavLink>
                                         <NavLink className="navbar-item" to="/noods/new">Add Nood & Ratings</NavLink>
-                                        {/* <NavLink className="navbar-item" to="/noods/edit">Edit Noods</NavLink> */}
                                     </div>
                                 </div> : null}
                                 <button className="button is-danger" onClick={handleLogout}>

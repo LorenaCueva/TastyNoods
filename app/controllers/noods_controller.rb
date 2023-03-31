@@ -8,12 +8,12 @@ class NoodsController < ApplicationController
         render json: noods, status: :ok
     end
 
-    def show
-        render json: @nood, status: :ok
-    end
+    # def show
+    #     render json: @nood, status: :ok
+    # end
 
     def update
-        @nood.update(nood_params)
+        @nood.update!(nood_params)
         render json: @nood, status: :ok
     end
 

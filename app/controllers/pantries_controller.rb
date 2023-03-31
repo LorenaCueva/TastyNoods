@@ -2,10 +2,10 @@ class PantriesController < ApplicationController
     before_action :authorize_logged
     before_action :find_user, only: [:index, :show, :create, :update, :destroy]
     before_action :find_pantry, only: [:show, :update, :destroy]
-    before_action :authorize_belongs_to, only: [:show, :destroy]
+    before_action :authorize_belongs_to, only: [:show, :destroy, :update]
 
     def index
-        pantries = @user.pantries.all
+        pantries = @user.pantries.all.order(created_at: :desc)
         render json: pantries, status: :ok
     end
 
@@ -19,12 +19,17 @@ class PantriesController < ApplicationController
     end
 
     def update
-        if @user.isAdmin?
-            @pantry.update(pantry_params_admin)
-        else
-            authorize_belongs_to
-            @pantry.update(pantry_params)
+        # if @user.isAdmin?
+        #     @pantry.update(pantry_params_admin)
+        # else
+        #     authorize_belongs_to
+        #     @pantry.update(pantry_params)
+        # end
+        # render json: @pantry, status: :ok
+        if params[:comments].present?
+            params[:flagged] = true
         end
+            @pantry.update!(pantry_params)
         render json: @pantry, status: :ok
     end
     
@@ -36,11 +41,7 @@ class PantriesController < ApplicationController
     private
 
     def pantry_params
-        params.permit(:rating, :comments)
-    end
-
-    def pantry_params_admin
-        params.permit(:comments, :rating, :flagged)
+        params.permit(:rating, :comments, :nood_id, :flagged)
     end
 
     def find_pantry
