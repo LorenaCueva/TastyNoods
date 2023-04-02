@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :noods, except: [:show, :create]
+  resources :noods, except: [:show, :create, :update]
   resources :ratings
   resources :users, only: [:update, :destroy]
   resources :stores, only: [:index, :create]
@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   delete "/pantry/:id", to: "pantries#destroy"
 
   get "/noods/:id", to: "noods#nood_with_comments"
+  patch "/noods/:id", to: "nood_with_review#update"
   post "/noods", to: "nood_with_review#create"
   patch "/noods/:id/pictures", to: "noods#set_pictures"
   get "/noods/:id/pictures", to: "noods#pictures"

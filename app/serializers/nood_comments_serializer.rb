@@ -1,5 +1,5 @@
 class NoodCommentsSerializer < ActiveModel::Serializer
-  attributes :id, :brand, :flavor, :nood_type, :cuisine, :price, :contents, :cook_time, :pictures, :users_rating, :pantries
+  attributes :id, :brand, :flavor, :nood_type, :cuisine, :price, :contents, :users_rating, :pantries, :pictures, :minutes, :seconds
   has_one :rating, serializer: RatingSerializer
   has_many :stores 
 
@@ -14,17 +14,37 @@ class NoodCommentsSerializer < ActiveModel::Serializer
   end
 
   def pantries
-    object.pantries.where(flagged: false).map do |pantry|
+    object.pantries.where(flagged: false).where.not(comments: [nil, ""]).map do |pantry|
       PantryCommentsSerializer.new(pantry, root: false)
     end
   end
 
-  def pictures
-    # if object.pictures.attached?
-    #   object.pictures.map do |picture|
-    #     Cloudinary::Utils.cloudinary_url(picture.key)
-    #   end
-    # end
+  def minutes
+    object.cooking_time.to_i / 60
   end
+
+  def seconds
+    object.cooking_time.to_i % 60
+  end
+
+  # def pictures
+  #   if object.pictures.attached?
+  #     object.pictures.map do |picture|
+  #       Cloudinary::Utils.cloudinary_url(picture.key, crop: "fill")
+  #     end
+    
+  #   end
+  # end
+
+  def pictures
+    if object.pictures.attached?
+      res = []
+      res << Cloudinary::Utils.cloudinary_url(object.pictures[0].key, width: 1200, height: 400, crop: "fill")
+      res << Cloudinary::Utils.cloudinary_url(object.pictures[1].key, width: 800, height: 600, crop: "fill", gravity: "center")
+      res << Cloudinary::Utils.cloudinary_url(object.pictures[2].key, width: 800, height: 600, crop: "fill", gravity: "center")
+      res
+      end
+  end
+
 
 end

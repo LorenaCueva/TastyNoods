@@ -9,7 +9,7 @@ function PantryCard({ item, onDelete, onEdit}) {
   const [comments, setComments] = useState(item.comments ? item.comments : "");
   const [showDeleteModal, setsShowDeleteModal] = useState(false);
 
-  const image = item.nood.pictures ? item.nood.pictures : "../noodPackage.png";
+  const image = item.nood.picture ? item.nood.picture : "../noodPackage.png";
 
   function toggleForm(){
     setShowForm(!showForm);
@@ -80,7 +80,7 @@ function PantryCard({ item, onDelete, onEdit}) {
                   />
                 </div>
               </div>
-              <div className="columns is-vcentered">
+              {Number(item.nood.user_rating) > 0 ?<div className="columns is-vcentered">
                 <div className="column is-narrow">
                   <h5 className="subtitle is-6">User's Rating:</h5>
                 </div>
@@ -92,7 +92,7 @@ function PantryCard({ item, onDelete, onEdit}) {
                     size={21}
                   />
                 </div>
-              </div>
+              </div> : null}
               {item.rating && !showForm? 
                 <div className="columns is-vcentered">
                     <div className="column is-narrow">

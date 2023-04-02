@@ -3,6 +3,7 @@ import { useContext, useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import PantryCard from "./PantryCard";
 import Search from "./Search";
+import { titleColor } from "../Helpers";
 
 function Pantry(){
 
@@ -48,12 +49,12 @@ function Pantry(){
     <PantryCard item={item} key={item.id} onDelete={handleDeleteItem} onEdit={handleEditItem}/>
   ))
 
-//   const filteredItems = pantryItemsToRender.filter(item => item.nood.brand.includes(search) || item.nood.flavor.includes(search))
-
     return(
         <div>
             <Search search={search} setSearch={setSearch}/>
-            {pantryItemsToRender.length === 0 ? <h1 className="title has-text-centered">Uh oh, no noods found. Time to broaden your search.</h1> : 
+            {pantryItemsToRender.length === 0 ? 
+            <div style={{ height: "100vw" }}><h1 className="title has-text-centered" style={{ color: titleColor }}>Uh oh, no noods found. Time to broaden your search.</h1></div>
+             : 
             <div className="columns is-multiline">
                 {pantryItemsToRender}
             </div>}

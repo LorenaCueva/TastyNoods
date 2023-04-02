@@ -78,7 +78,7 @@ function PicturesForm({noodId, uploadSuccess, isEdit, clearForm}){
     return(
     <div>
         <div className="section">
-        <label className="label has-text-centered">{isEdit ? "Edit Nood Pics" : "Add Nood Pics"}<span className="is-size-7 has-text-grey"> (Package, contents, prepared)</span></label>
+        <label className="label has-text-centered">{isEdit ? "Nood Pics" : "Add 3 Nood Pics"}<span className="is-size-7 has-text-grey"> (1 Package, 1 Contents, 1 Prepared)</span></label>
       <div className="tile is-ancestor mb-5 ">
         {selectedImages !== null ? selectedImages.map((image, index) => (
           <div key={index} className="tile is-parent">
@@ -127,7 +127,7 @@ function PicturesForm({noodId, uploadSuccess, isEdit, clearForm}){
           
           </div>
         </div>
-        {loading || selectedImages.length < 3 ? null :
+        {loading || selectedImages.length != 3 ? null :
           <button className="button is-danger" onClick={handleFileSubmit}>
             Choose Images
           </button>}   

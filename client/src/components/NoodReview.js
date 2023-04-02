@@ -3,9 +3,11 @@ import { useEffect, useState, useContext} from "react";
 import { RATINGS } from "./Ratings";
 import { UserContext } from "./UserContext";
 import NewNoodForm from "./NewNoodForm";
-import DeleteNoodModal
- from "./DeleteNoodModal";
-const NoodReview = ({nood_id, onDeleteNood, onClick}) => {
+import DeleteNoodModal from "./DeleteNoodModal";
+import { avatarPlaceholder } from "../Helpers";
+
+
+const NoodReview = ({nood_id, onDeleteNood, onClick, onUpdateNood, onCancel}) => {
 
 
     const [nood, setNood] = useState(null);
@@ -13,7 +15,6 @@ const NoodReview = ({nood_id, onDeleteNood, onClick}) => {
     const [showDeleteModal, setsShowDeleteModal] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false)
 
-    console.log(nood)
 
     useEffect(()=>{
         fetch(`/noods/${nood_id}`)
@@ -36,6 +37,16 @@ const NoodReview = ({nood_id, onDeleteNood, onClick}) => {
         setsShowDeleteModal(false)
       }
 
+      function resetNoods(){
+        setShowEditForm(!showEditForm);
+        // onCancel();
+      }
+
+      function handleUpdateNood(nood){
+        setNood(nood);
+        onUpdateNood(nood);
+      }
+
       async function handleAddToPantryClick(){
         console.log(nood.id)
         const response = await fetch('/pantry', {
@@ -56,7 +67,7 @@ const NoodReview = ({nood_id, onDeleteNood, onClick}) => {
 
         return (
 
-            showEditForm ? <NewNoodForm noodId={nood.id} onCancel={handleEditClick}/> :
+            showEditForm ? <NewNoodForm noodId={nood.id} onCancel={resetNoods} onUpdateNood={handleUpdateNood}/> :
             
             <div style={{ position: 'relative' }}>
                 {user.isAdmin ? 
@@ -92,7 +103,7 @@ const NoodReview = ({nood_id, onDeleteNood, onClick}) => {
   <div className="tile is-parent">
     <div className="tile is-child is-12">
       <figure className="image is-3by1">
-        <img src="https://picsum.photos/id/10/1200/400" alt="Placeholder image"/>
+        <img src={nood.pictures? nood.pictures[0] : "https://picsum.photos/id/10/1200/400"} alt="Placeholder image"/>
       </figure>
     </div>
   </div>
@@ -100,8 +111,8 @@ const NoodReview = ({nood_id, onDeleteNood, onClick}) => {
 <div className="tile is-ancestor">
   <div className="tile is-parent">
     <article className="tile is-child box">
-      <figure className="image is-4by3">
-        <img src="https://bulma.io/images/placeholders/640x480.png" alt="Placeholder" />
+      <figure className="image is-3">
+        <img src={nood.pictures ? nood.pictures[1] : "../ramen1.png" } alt="Placeholder" />
       </figure>
     </article>
   </div>
@@ -164,14 +175,14 @@ const NoodReview = ({nood_id, onDeleteNood, onClick}) => {
                     <div className="tile is-parent is-vertical ">
                         <article className="tile is-child box">
                         <figure className="image is-3">
-                            <img src="../ramen1.png" alt="Nood Image" />
+                            <img src={nood.pictures ? nood.pictures[2] : "../ramen1.png" } alt="Nood Image" />
                         </figure>
                         </article>
                         <article className="tile is-child box ">
                         <div className="columns is-vcentered has-text-right">
                   <div className="column has-text-centered">
                     <h5 className="subtitle is-4 ">User's Rating: </h5>
-                  </div>
+                  </div> 
                   <div className="column has-text-right">
                     <ReactStars
                       count={5}
@@ -191,8 +202,12 @@ const NoodReview = ({nood_id, onDeleteNood, onClick}) => {
         <div className="tile is-parent">
         <article className="tile is-child box has-text-centered">
           <h5 className="subtitle is-5">Notes</h5>
-          <p>{nood.rating.notes}</p>
-        </article>
+          {nood.rating.notes.split("\n").map((note, index) => (
+            <p key={index}>
+                {note}
+                {index !== nood.rating.notes.split("\n").length - 1 && <br />}
+                </p>))}
+            </article>
       </div>
       </div>
       <div className="tile is-ancestor">
@@ -204,7 +219,7 @@ const NoodReview = ({nood_id, onDeleteNood, onClick}) => {
           <div className="media">
             <figure className="media-left">
               <p className="image is-64x64">
-                <img src={pantry.avatar}/>
+                <img src={pantry.avatar ? pantry.avatar : avatarPlaceholder} alt="avatar"/>
               </p>
             </figure>
             <div className="media-content">

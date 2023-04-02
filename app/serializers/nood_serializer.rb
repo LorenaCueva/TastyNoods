@@ -1,5 +1,5 @@
 class NoodSerializer < ActiveModel::Serializer
-  attributes :id, :brand, :flavor, :nood_type, :cuisine, :price, :contents, :cook_time, :overall_rating, :short_notes, :pictures, :user_rating
+  attributes :id, :brand, :flavor, :nood_type, :cuisine, :overall_rating, :short_notes, :picture, :user_rating
 
   def cook_time
     minutes = object.cooking_time.to_i / 60
@@ -21,15 +21,15 @@ class NoodSerializer < ActiveModel::Serializer
     end
   end
 
-  def pictures
+  def picture
     if object.pictures.attached?
-      # Cloudinary::Utils.cloudinary_url(object.pictures[0].key, 
-      #   width: 400, 
-      #   height: 300, 
-      #   crop: "fill", 
-      #   gravity: "center", 
-      #   fetch_format: "auto", 
-      #   quality: "auto")
+      Cloudinary::Utils.cloudinary_url(object.pictures[0].key, 
+        crop: "fill",
+        width: 400, 
+        height: 400,
+        gravity: "center")
+        # fetch_format: "auto", 
+        # quality: "auto")
       # Cloudinary::Utils.cloudinary_url(object.pictures[0].key)
     end
   end

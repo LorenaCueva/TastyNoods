@@ -23,7 +23,7 @@ function ReviewComments({item}){
 
 
     return(
-        <div>
+        <div style={{ height: "100vw" }}>
              {commentsToRender.length > 0 ? 
             <div>
                 <h1 className="title">Review Comments</h1>
@@ -32,8 +32,11 @@ function ReviewComments({item}){
                {commentsToRender}
            </div>
             </div>
-            : 
-            <h1 className="title">No comments to review</h1>}
+            :
+            <div>
+                <h1 className="title has-text-centered" style={{ color: "orange" }}>No comments to review</h1>
+            </div>
+            }
         </div>
     )
 

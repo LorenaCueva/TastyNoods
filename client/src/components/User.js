@@ -1,7 +1,7 @@
 import { UserContext } from "./UserContext";
 import { useContext, useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
-require('@rails/activestorage').start();
+import { titleColor, background, avatarPlaceholder } from "../Helpers";
 
 function User(){
 
@@ -18,7 +18,7 @@ function User(){
     const [errors, setErrors] = useState([]);
     const [selectedFile, setSelectedFile] = useState({avatar: null});
     const [loading, setLoading] = useState(false);
-    const [avatar, setAvatar] = useState(user && user.avatar ? user.avatar : "https://i.pinimg.com/originals/89/76/e2/8976e2fc0f500e73604cb47df14327f5.jpg")
+    const [avatar, setAvatar] = useState(user && user.avatar ? user.avatar : avatarPlaceholder)
     const navigate = useNavigate();
     
     useEffect(()=>{
@@ -91,12 +91,12 @@ function User(){
     
     if(user){
         return(
-            <div style={{ backgroundImage: "url(../noodles.jpeg)" }}>
+            <div style={{ backgroundImage: background, height: "100vw" }}>
             <section >
             <div className="columns has-text-centered">
                 <div className="column is-half is-offset-one-quarter">
                     <div className="box" >
-                    <div className="title is-4" style={{ color: 'orange' }}>Change Avatar</div>
+                    <div className="title is-4" style={{ color: titleColor }}>Change Avatar</div>
                     <img id="panda" src={avatar} alt="avatar" width="150"/>
                     {loading ? <progress className="progress is-danger mt-5" max="100"></progress> : null}
                     <div className="level">
@@ -121,7 +121,7 @@ function User(){
                         </div>
                     </div>
                     </div><br/>
-                    {!user.isAdmin ?
+                    {/* {!user.isAdmin ? */}
                     <form>
                         <div className="title is-4" style={{ color: 'orange' }}>Change Password</div>
                         <div className="field">
@@ -142,7 +142,8 @@ function User(){
                         </div>
                         <div className="pt-3"></div>
                         <button className="button is-block is-danger is-large is-fullwidth" onClick={handleFormSubmit}>Change Password</button>
-                        </form> : null}
+                        </form> 
+                        {/* : null} */}
                         <div className="pt-3">{displayErrors}</div>
                     </div>
                 

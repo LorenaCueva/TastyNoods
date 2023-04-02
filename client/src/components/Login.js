@@ -1,6 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import { UserContext } from "./UserContext";
 import { useNavigate } from "react-router-dom";
+import { titleColor, background } from "../Helpers";
 
 function Login({isSignup = false, loggout = false}){
 
@@ -69,17 +70,17 @@ function Login({isSignup = false, loggout = false}){
      }
     
     return(
-        <div className="hero is-fullheight" style={{ backgroundImage: "url(../noodles.jpeg)" }}>
+        <div className="hero" style={{ backgroundImage: background, height: "100vw" }}>
             <div className="hero-body">
             <div className="has-text-centered">
                 <div className="columns">
                 <div className="column is-half is-offset-one-quarter">
                     
                     <div className="box">
-                    <h3 className="title " style={{ color: 'orange' }}>{message}</h3>
-                    <p className="subtitle" style={{ color: 'orange' }}>{`${message} to see our tasty noods!`}</p>
+                    <h3 className="title " style={{ color: titleColor }}>{message}</h3>
+                    <p className="subtitle" style={{ color: titleColor }}>{`${message} to see our tasty noods!`}</p>
                     <img id="panda" src="https://static.vecteezy.com/system/resources/previews/000/599/203/original/vector-panda-logo-black-and-white-head.jpg" alt="panda" style={{width: "60%"}}/>
-                    <div className="title is-5" style={{ color: 'orange' }}>Please enter your email and password.</div>
+                    <div className="title is-5" style={{ color: titleColor }}>Please enter your email and password.</div>
                     <form>
                         <div className="field">
                         <p className="control has-icons-left">

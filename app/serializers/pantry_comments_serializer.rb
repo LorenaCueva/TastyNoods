@@ -10,10 +10,10 @@ class PantryCommentsSerializer < ActiveModel::Serializer
   end
 
   def avatar
-    # user = User.find(object.user_id)
-    # if user.avatar.attached?
-    #   Cloudinary::Utils.cloudinary_url(user.avatar.key, :gravity=>"face", :height=>150, :width=>150, :crop=>"thumb", :border=>"3px_solid_gray")
-    # end
+    user = User.find(object.user_id)
+    if user.avatar.attached?
+      Cloudinary::Utils.cloudinary_url(user.avatar.key, :gravity=>"face", :height=>150, :width=>150, :crop=>"thumb", :border=>"3px_solid_orange")
+    end
   end
 
 end

@@ -3,7 +3,7 @@ class UserAvatarSerializer < ActiveModel::Serializer
 
   def avatar
     if object.avatar.attached?
-      Cloudinary::Utils.cloudinary_url(object.avatar.key, :gravity=>"face", :height=>150, :width=>150, :crop=>"thumb", :border=>"3px_solid_gray")
+      Cloudinary::Utils.cloudinary_url(object.avatar.key, :gravity=>"face", :height=>150, :width=>150, :crop=>"thumb", :border=>"3px_solid_orange")
     end
   end
 

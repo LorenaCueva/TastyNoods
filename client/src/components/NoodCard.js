@@ -1,4 +1,5 @@
 import ReactStars from "react-stars";
+import { ramenBowl, background } from "../Helpers";
 
 
 function NoodCard({nood, onClick, onDeleteNood}){
@@ -25,9 +26,9 @@ function NoodCard({nood, onClick, onDeleteNood}){
     }
   }
 
+  const image = nood.picture ? nood.picture : ramenBowl;
+
     return(
-
-
   <div>
   <div style={{ position: 'relative' }}>
     <i
@@ -35,23 +36,20 @@ function NoodCard({nood, onClick, onDeleteNood}){
     style={{ position: 'absolute', top: 0, right: 40 }}
     onClick={handleAddToPantryClick}>add
     </i>
-  <section className="section is-clickable" onClick={() => handleCardClick(nood.id)}>
+  <section className="section is-clickable" onClick={() => handleCardClick(nood.id)} >
   <div className="columns">
     <div className="column">
       <div className="tile is-ancestor">
         <div className="tile is-parent">
           <article className="tile is-child">
-            <div className="content">
-              <figure className="image is-4by3">
-                <img src="../ramen1.png" alt={`Image of ${nood.brand} ${nood.flavor}`}/>
+              <figure className="image is-square">
+                <img src={image} alt={`Image of ${nood.brand} ${nood.flavor}`}/>
               </figure>
-            </div>
           </article>
         </div>
         <div className="tile is-parent is-8">
-          <article className="tile is-child notification is-danger">
+          <article className="tile is-child notification ">
             <p className="subtitle">{nood.nood_type.toUpperCase()}</p>
-            {/* <br/> */}
             <p className="title">{nood.brand}</p>
             <p className="subtitle">{nood.flavor}</p>
             <p>{nood.short_notes}</p>
@@ -72,7 +70,11 @@ function NoodCard({nood, onClick, onDeleteNood}){
       </div>
     </div>
   </div>
+  <div className="has-text-right">
+  <span className="tag is-info is-medium">{nood.cuisine}</span>
+</div>
 </section>
+
 </div>
 
 

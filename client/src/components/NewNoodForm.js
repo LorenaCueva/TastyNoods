@@ -5,9 +5,10 @@ import ReactStars from "react-stars";
 import StoresForm from "./StoresForm";
 import ImageUploadModal from "./ImageUploadModal";
 import { RATINGS } from "./Ratings";
+import { titleColor } from "../Helpers";
 
 
-function NewNoodForm({noodId, onCancel = null}){
+function NewNoodForm({noodId, onCancel, onUpdateNood}){
 
     const navigate = useNavigate();
     const {user} = useContext(UserContext);
@@ -82,7 +83,7 @@ function NewNoodForm({noodId, onCancel = null}){
 
       
     function toggleOpenModal(){
-        setOpenModal(!openModal)
+        setOpenModal(!openModal);
         setClearForm(true);
     }
           
@@ -104,15 +105,16 @@ function NewNoodForm({noodId, onCancel = null}){
     }
 
     async function handleFormSubmit(e){
+        console.log(noodId)
         e.preventDefault();
             if(stores.length == 0 ){
                 setErrors({stores: ["add stores"]});
             }
             else{
             const dataToSend = {...formData, ...ratingData, overall_rating: calculateRating(), stores: stores}
+            console.log(dataToSend)
             const response = noodId ? await postData(`/noods/${noodId}`, dataToSend, "PATCH") : await postData('/noods', dataToSend, "POST")
             const data = await response.json();
-            console.log(data)
             if(response.ok){
                 console.log("data", data)
                 setNewNoodID(data.id)
@@ -122,6 +124,10 @@ function NewNoodForm({noodId, onCancel = null}){
                 setClearForm(true);
                 setStores([]);
                 setErrors([]);
+                if(noodId){
+                    console.log("here")
+                    onUpdateNood(data);
+                }
             }
             else{
                 setErrors(data.errors)
@@ -162,7 +168,15 @@ function NewNoodForm({noodId, onCancel = null}){
     
       function handleCancelClick(){
        cancelForm();
-        onCancel();
+       onCancel();
+       }
+
+      function handleKeyDown(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault(); 
+          const { name, value } = e.target;
+          e.target.value = value + '\n'
+        }
       }
 
  
@@ -170,7 +184,7 @@ function NewNoodForm({noodId, onCancel = null}){
     <div>
     {onCancel ? <button className="delete is-large is-pulled-right" onClick={handleCancelClick}></button> : null}
     <div className="has-text-centered">
-        <h1 className="title">{onCancel ? "Edit Nood!" : "New Nood!"}</h1>
+        <h1 className="title" style={{ color: titleColor }}>{onCancel ? "Edit Nood!" : "New Nood!"}</h1>
     </div>
     <form onSubmit={handleFormSubmit}>
     <div className="columns is-centered">
@@ -280,7 +294,7 @@ function NewNoodForm({noodId, onCancel = null}){
         <div className="field">
             <label className="label">Notes</label>
             <div className="control">
-            <textarea className="textarea" name="notes" value={formData.notes} onChange={handleFormChange} rows={15} placeholder="Enter notes here"></textarea>
+            <textarea className="textarea" name="notes" value={formData.notes} onKeyDown={handleKeyDown} onChange={handleFormChange} rows={15} placeholder="Enter notes here"></textarea>
             <p className="help is-danger">
                     {hasErrors("notes")}
             </p>
@@ -299,7 +313,7 @@ function NewNoodForm({noodId, onCancel = null}){
     </div>
 </form>
 
-<ImageUploadModal noodId={newNoodID} openModal={openModal} toggleOpenModal={toggleOpenModal} clearForm={clearForm} isEdit={noodId ? noodId : null}/>
+<ImageUploadModal noodId={newNoodID} openModal={openModal} toggleOpenModal={toggleOpenModal} clearForm={clearForm} isEdit={noodId ? noodId : null} onCancel={handleCancelClick}/>
 
 
 </div>
