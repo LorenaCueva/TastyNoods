@@ -13,6 +13,7 @@
   "dependencies": {
     "@rails/activestorage": "^7.0.4-3",
     "bulma": "^0.9.4",
+    "dotenv": "^16.0.3",
     "react-stars": "^2.2.5"
   }
 }
