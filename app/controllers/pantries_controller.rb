@@ -19,13 +19,6 @@ class PantriesController < ApplicationController
     end
 
     def update
-        # if @user.isAdmin?
-        #     @pantry.update(pantry_params_admin)
-        # else
-        #     authorize_belongs_to
-        #     @pantry.update(pantry_params)
-        # end
-        # render json: @pantry, status: :ok
         if params[:comments].present?
             params[:flagged] = true
         end

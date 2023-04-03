@@ -1,20 +1,11 @@
 class NoodsController < ApplicationController
-    # before_action :authorize_logged
-    # before_action :authorize_admin, only: [:create, :update, :destroy]
+    before_action :authorize_logged
+    before_action :authorize_admin, only: [:create, :update, :destroy]
     before_action :find_nood, only: [:show, :update, :destroy, :nood_with_comments, :set_pictures, :pictures, :remove_picture]
 
     def index
         noods = Nood.all.order(updated_at: :desc)
         render json: noods, status: :ok
-    end
-
-    # def show
-    #     render json: @nood, status: :ok
-    # end
-
-    def update
-        @nood.update!(nood_params)
-        render json: @nood, status: :ok
     end
 
     def destroy
@@ -30,7 +21,6 @@ class NoodsController < ApplicationController
         if params[:pictures].present?
           begin
             @nood.pictures.attach(params[:pictures])
-            # @nood.update({pictures: params[:pictures]})
             @nood.save
             render json: @nood, status: :ok
           rescue StandardError => e

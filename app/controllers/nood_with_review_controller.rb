@@ -1,6 +1,6 @@
 class NoodWithReviewController < ApplicationController
-    # before_action :authorize_logged
-    # before_action :authorize_admin
+    before_action :authorize_logged
+    before_action :authorize_admin
     before_action :find_nood, only: [:update, :show]
 
     def create
@@ -23,28 +23,10 @@ class NoodWithReviewController < ApplicationController
         end
     end
 
-    # def update
-    #     contents_array = nood_params[:contents].downcase.split(", ")
-    #     params[:cooking_time] = ActiveSupport::Duration.parse("PT#{params[:minutes]}M#{params[:seconds]}S")
-      
-    #     if @nood.update(nood_params.except(:contents).merge(contents: contents_array))
-    #         if @nood.rating.update(rating_params)
-    #             @nood.locations.destroy_all
-    #             params[:stores].map { |s| nood.locations.create!(store_id: s) }
-    #             render json: @nood, status: :ok
-    #         else
-    #             render json: { errors: rating.errors }, status: :unprocessable_entity
-    #       end
-    #     else
-    #       render json: { errors: @nood.errors }, status: :unprocessable_entity
-    #     end
-        
-    # end
 
     def update
         contents_array = nood_params[:contents].downcase.split(", ")
         params[:cooking_time] = ActiveSupport::Duration.parse("PT#{params[:minutes]}M#{params[:seconds]}S")
-      
         if @nood.update(nood_params.except(:contents).merge(contents: contents_array))
           if @nood.rating.present? && !@nood.rating.update(rating_params)
             render json: { errors: @nood.rating.errors }, status: :unprocessable_entity
@@ -61,50 +43,6 @@ class NoodWithReviewController < ApplicationController
     def show
         render json: @nood, serializer: NoodCommentsSerializer
     end
-
-    # def create
-    #     contents = nood_params[:contents].downcase.split(", ")
-    #     cooking_time = ActiveSupport::Duration.parse("PT#{params[:minutes]}M#{params[:seconds]}S")
-    #     nood = Nood.create!(nood_params.except(:contents).merge(contents: contents, cooking_time: cooking_time))
-    #     if nood.valid?
-    #       rating = User.find(session[:user_id]).ratings.new(rating_params.merge(nood_id: nood.id))
-    #       if rating.valid?
-    #         ActiveRecord::Base.transaction do
-    #           rating.save!
-    #           params[:stores].each do |store_id|
-    #             nood.locations.create!(store_id: store_id)
-    #           end
-    #         end
-    #         render json: nood, status: :created
-    #       else
-    #         nood.destroy
-    #       end 
-    #     else
-    #     errors = nood.errors.to_hash.merge!(rating.errors.to_hash)
-    #     render json: { errors: errors }, status: :unprocessable_entity
-    #     end
-    # end
-
-    # def create
-    #     contents = nood_params[:contents].downcase.split(", ")
-    #     cooking_time = ActiveSupport::Duration.parse("PT#{params[:minutes]}M#{params[:seconds]}S")
-    #     nood = Nood.new(nood_params.except(:contents).merge(contents: contents, cooking_time: cooking_time))
-    #     rating = User.find(session[:user_id]).ratings.new(rating_params.merge(nood_id: nood.id))
-    #     if nood.valid? && rating.valid?
-    #       ActiveRecord::Base.transaction do
-    #         nood.save!
-    #         rating.save!
-    #         params[:stores].each do |store_id|
-    #           nood.locations.create!(store_id: store_id)
-    #         end
-    #         end
-    #       render json: nood, status: :created
-    #     else
-    #       errors = nood.errors.to_hash.merge!(rating.errors.to_hash)
-    #       render json: { errors: errors }, status: :unprocessable_entity
-    #     end
-    # end
-      
 
 private
 

@@ -68,15 +68,12 @@ function User(){
         setLoading(true);
         const fileData = new FormData();
         fileData.append('avatar', selectedFile.avatar)
-        console.log(fileData)
-        console.log(selectedFile.avatar)
         fetch(`/users/${user.id}/avatar`,{
             method:"PATCH",
             body: fileData
         })
         .then(r => r.json())
         .then(data => {
-            console.log(data)
             setLoading(false)
             setAvatar(data.avatar)
             setSelectedFile({avatar: null})
@@ -121,7 +118,6 @@ function User(){
                         </div>
                     </div>
                     </div><br/>
-                    {/* {!user.isAdmin ? */}
                     <form>
                         <div className="title is-4" style={{ color: 'orange' }}>Change Password</div>
                         <div className="field">
@@ -143,7 +139,6 @@ function User(){
                         <div className="pt-3"></div>
                         <button className="button is-block is-danger is-large is-fullwidth" onClick={handleFormSubmit}>Change Password</button>
                         </form> 
-                        {/* : null} */}
                         <div className="pt-3">{displayErrors}</div>
                     </div>
                 

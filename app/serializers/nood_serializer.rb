@@ -28,9 +28,6 @@ class NoodSerializer < ActiveModel::Serializer
         width: 400, 
         height: 400,
         gravity: "center")
-        # fetch_format: "auto", 
-        # quality: "auto")
-      # Cloudinary::Utils.cloudinary_url(object.pictures[0].key)
     end
   end
 

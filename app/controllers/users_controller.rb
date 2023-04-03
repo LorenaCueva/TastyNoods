@@ -22,14 +22,14 @@ class UsersController < ApplicationController
 
     def set_avatar
         if params[:avatar].present?
-        begin
-            @user.avatar.attach(params[:avatar])
-            @user.update({avatar: params[:avatar]})
-            @user.save      
-            render json: @user, status: :ok
-        rescue StandardError => e
-            render json: {errors: ["Error uploading avatar: #{e.message}"] }, status: :internal_server_error
-        end
+            begin
+                @user.avatar.attach(params[:avatar])
+                @user.touch
+                @user.save      
+                render json: @user, status: :ok
+            rescue StandardError => e
+                render json: {errors: ["Error uploading avatar: #{e.message}"] }, status: :internal_server_error
+            end
         end
     end
 

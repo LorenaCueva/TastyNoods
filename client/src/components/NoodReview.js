@@ -4,7 +4,7 @@ import { RATINGS } from "./Ratings";
 import { UserContext } from "./UserContext";
 import NewNoodForm from "./NewNoodForm";
 import DeleteNoodModal from "./DeleteNoodModal";
-import { avatarPlaceholder } from "../Helpers";
+import { avatarPlaceholder, ramenBanner, ramen1, ramen2, ramen3 } from "../Helpers";
 
 
 const NoodReview = ({nood_id, onDeleteNood, onClick, onUpdateNood, onCancel}) => {
@@ -39,7 +39,6 @@ const NoodReview = ({nood_id, onDeleteNood, onClick, onUpdateNood, onCancel}) =>
 
       function resetNoods(){
         setShowEditForm(!showEditForm);
-        // onCancel();
       }
 
       function handleUpdateNood(nood){
@@ -99,41 +98,42 @@ const NoodReview = ({nood_id, onDeleteNood, onClick, onUpdateNood, onCancel}) =>
     onClick={onClick}>arrow_back
     </i>
     
-                <div className="section tile is-ancestor">
-  <div className="tile is-parent">
-    <div className="tile is-child is-12">
-      <figure className="image is-3by1">
-        <img src={nood.pictures? nood.pictures[0] : "https://picsum.photos/id/10/1200/400"} alt="Placeholder image"/>
-      </figure>
+    <div className="section tile is-ancestor">
+    <div className="tile is-parent">
+        <div className="tile is-child is-12">
+        <figure className="image is-3by1">
+            <img src={nood.pictures? nood.pictures[0] : ramenBanner} alt="Nood banner"/>
+        </figure>
+        </div>
     </div>
-  </div>
-</div>
-<div className="tile is-ancestor">
-  <div className="tile is-parent">
+    </div>
+    <div className="tile is-ancestor">
+    <div className="tile is-parent">
+        <article className="tile is-child box">
+        <figure className="image is-3">
+            <img src={nood.pictures ? nood.pictures[1] : ramen1 } alt="Nood image" />
+        </figure>
+        </article>
+    </div>
+    <div className="tile is-parent is-vertical">
     <article className="tile is-child box">
-      <figure className="image is-3">
-        <img src={nood.pictures ? nood.pictures[1] : "../ramen1.png" } alt="Placeholder" />
-      </figure>
+        <p className="title is-2">{nood.brand}</p>
+        <p className="subtitle is-3">{nood.flavor}</p>
+        <p className="subtitle is-4">Cuisine: {nood.cuisine}</p>
+        <p className="subtitle">Nood Type: {nood.nood_type}</p>
     </article>
-  </div>
-  <div className="tile is-parent is-vertical">
-  <article className="tile is-child box">
-    <p className="title is-2">{nood.brand}</p>
-    <p className="subtitle is-3">{nood.flavor}</p>
-    <p className="subtitle is-4">Cuisine: {nood.cuisine}</p>
-    <p className="subtitle">Nood Type: {nood.nood_type}</p>
-  </article>
-  <article className="tile is-child box">
-    <p className="subtitle is-4 ">Cooking Time: {nood.cook_time} minutes</p>
-    <p className="subtitle is-4 ">Price: $ {nood.price}</p>
-    <p className="subtitle is-4 ">Found at: {nood.stores.map(store => store.name).join(', ')}</p>
-    <div className="content">
-      <p></p>
+    <article className="tile is-child box">
+        <p className="subtitle is-4 ">Cooking Time: {nood.cook_time} minutes</p>
+        <p className="subtitle is-4 ">Price: $ {nood.price}</p>
+        <p className="subtitle is-4 ">Found at: {nood.stores.map(store => store.name).join(', ')}</p>
+        <p className="subtitle is-4 ">Contents: {nood.contents.join(', ')}</p>
+        <div className="content">
+        <p></p>
+        </div>
+    </article>
     </div>
-  </article>
-</div>
-</div>
-                
+    </div>
+                    
             <div className="tile is-ancestor">
             <div className="tile is-parent ">
               <article className="tile is-child box has-text-centered is-0">
@@ -175,22 +175,26 @@ const NoodReview = ({nood_id, onDeleteNood, onClick, onUpdateNood, onCancel}) =>
                     <div className="tile is-parent is-vertical ">
                         <article className="tile is-child box">
                         <figure className="image is-3">
-                            <img src={nood.pictures ? nood.pictures[2] : "../ramen1.png" } alt="Nood Image" />
+                            <img src={nood.pictures ? nood.pictures[2] : ramen2 } alt="Nood Image" />
                         </figure>
                         </article>
                         <article className="tile is-child box ">
                         <div className="columns is-vcentered has-text-right">
+                 
                   <div className="column has-text-centered">
                     <h5 className="subtitle is-4 ">User's Rating: </h5>
                   </div> 
-                  <div className="column has-text-right">
-                    <ReactStars
+                  {nood.users_rating ?<div className="column has-text-right">
+                  <ReactStars
                       count={5}
                       edit={false}
                       value={Number(nood.users_rating)}
                       size={30}
-                    />
-                  </div>
+                    /> 
+                  </div>  :
+                  <div className="column has-text-left">
+                     <h5 className="subtitle is-4 ">Nothing Yet </h5>
+                    </div>}
                 </div>
                         </article>
                     </div>
@@ -213,7 +217,7 @@ const NoodReview = ({nood_id, onDeleteNood, onClick, onUpdateNood, onCancel}) =>
       <div className="tile is-ancestor">
   {nood.pantries.length > 0 ? <div className="tile is-parent">
     <article className="tile is-child box">
-      <p className="title">The people say:</p>
+      <p className="title">What people say:</p>
       {nood.pantries.map((pantry, index) => (
         <div key={pantry.author}>
           <div className="media">

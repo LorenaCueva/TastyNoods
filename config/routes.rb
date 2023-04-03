@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
   post "/signup", to: "users#create"
   get "/me", to: "users#show"
+
   patch "/users/:id/avatar", to: "users#set_avatar"
 
   post "/login", to: "sessions#create"

@@ -1,7 +1,7 @@
 class CommentsController < ApplicationController
 
-    # before_action :authorize_logged
-    # before_action :authorize_admin
+    before_action :authorize_logged
+    before_action :authorize_admin
     before_action :find_pantry, only: [:accept_comment, :destroy]
 
     def index
