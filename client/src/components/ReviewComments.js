@@ -15,7 +15,7 @@ function ReviewComments({item}){
     },[])
 
     function handleCommentReviewed(id){
-        const newComments = comments.filter(comment => comment.id != id)
+        const newComments = comments.filter(comment => comment.id !== id)
         setComments(newComments);
     }
 

@@ -13,6 +13,7 @@ const [errors, setErrors] = useState([]);
     fetch('/stores')
     .then(r => r.json())
     .then(data=> setStores(data))
+// eslint-disable-next-line
   },[])
 
   useEffect(()=>{
@@ -21,12 +22,14 @@ const [errors, setErrors] = useState([]);
         storesList([]);
         setClearForm(false)
     }
+// eslint-disable-next-line
   },[clearForm])
 
   useEffect(()=>{
     if(editStoresList){
         setSelectedStores(editStoresList)
     }
+// eslint-disable-next-line
   },[editStoresList])
 
   

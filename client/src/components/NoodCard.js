@@ -1,5 +1,5 @@
 import ReactStars from "react-stars";
-import { ramenBowl, background } from "../Helpers";
+import { ramenBowl } from "../Helpers";
 
 
 function NoodCard({nood, onClick, onDeleteNood}){
@@ -43,7 +43,7 @@ function NoodCard({nood, onClick, onDeleteNood}){
         <div className="tile is-parent">
           <article className="tile is-child">
               <figure className="image is-square">
-                <img src={image} alt={`Image of ${nood.brand} ${nood.flavor}`}/>
+                <img src={image} alt={`${nood.brand} ${nood.flavor}`}/>
               </figure>
           </article>
         </div>

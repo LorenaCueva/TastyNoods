@@ -61,7 +61,7 @@ function PantryCard({ item, onDelete, onEdit}) {
           <div className="card">
             <div className="card-image has-text-centered">
               <figure className="image is-square">
-                <img src={image} alt="Nood Image"/>
+                <img src={image} alt="Nood pic"/>
               </figure>
             </div>
             <div className="card-content">

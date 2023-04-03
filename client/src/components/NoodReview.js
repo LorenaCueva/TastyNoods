@@ -4,7 +4,7 @@ import { RATINGS } from "./Ratings";
 import { UserContext } from "./UserContext";
 import NewNoodForm from "./NewNoodForm";
 import DeleteNoodModal from "./DeleteNoodModal";
-import { avatarPlaceholder, ramenBanner, ramen1, ramen2, ramen3 } from "../Helpers";
+import { avatarPlaceholder, ramenBanner, ramen1, ramen2 } from "../Helpers";
 
 
 const NoodReview = ({nood_id, onDeleteNood, onClick, onUpdateNood, onCancel}) => {
@@ -20,7 +20,6 @@ const NoodReview = ({nood_id, onDeleteNood, onClick, onUpdateNood, onCancel}) =>
         fetch(`/noods/${nood_id}`)
         .then(r => r.json())
         .then(data => {
-            console.log(data);
             setNood(data)})
         .catch(error => console.log(error))
     },[nood_id])
@@ -111,7 +110,7 @@ const NoodReview = ({nood_id, onDeleteNood, onClick, onUpdateNood, onCancel}) =>
     <div className="tile is-parent">
         <article className="tile is-child box">
         <figure className="image is-3">
-            <img src={nood.pictures ? nood.pictures[1] : ramen1 } alt="Nood image" />
+            <img src={nood.pictures ? nood.pictures[1] : ramen1 } alt="Nood pic" />
         </figure>
         </article>
     </div>
@@ -175,7 +174,7 @@ const NoodReview = ({nood_id, onDeleteNood, onClick, onUpdateNood, onCancel}) =>
                     <div className="tile is-parent is-vertical ">
                         <article className="tile is-child box">
                         <figure className="image is-3">
-                            <img src={nood.pictures ? nood.pictures[2] : ramen2 } alt="Nood Image" />
+                            <img src={nood.pictures ? nood.pictures[2] : ramen2 } alt="Nood pic" />
                         </figure>
                         </article>
                         <article className="tile is-child box ">

@@ -6,8 +6,6 @@ import NoodReview from "./NoodReview";
 import Search from "./Search";
 import { titleColor } from "../Helpers";
 
-console.log(titleColor)
-
 function Noods(){
 
    
@@ -18,8 +16,6 @@ function Noods(){
     const [showReview, setShowReview] = useState(null);
     const [search, setSearch] = useState("");
     const navigate = useNavigate();
-
-    console.log(noods)
 
     async function fetchNoods(){
         const response = await fetch('/noods')
@@ -33,7 +29,7 @@ function Noods(){
     }
 
     function handleDeleteNood(id){
-        const newNoodList = noods.filter(nood => nood.id != id);
+        const newNoodList = noods.filter(nood => nood.id !== id);
         setNoods(newNoodList);
         toggleShowReview();
     }
@@ -60,6 +56,7 @@ function Noods(){
         else{
             fetchNoods();
         }
+    // eslint-disable-next-line
     },[user])
 
     if(showReview){

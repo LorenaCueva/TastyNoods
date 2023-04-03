@@ -3,7 +3,7 @@ import { UserContext } from "./UserContext";
 import { useNavigate } from "react-router-dom";
 import { titleColor, background } from "../Helpers";
 
-function Login({isSignup = false, loggout = false}){
+function Login({isSignup = false, logout = false}){
 
     const clearFormData = {
         username: "",
@@ -21,7 +21,7 @@ function Login({isSignup = false, loggout = false}){
     let message = signup ? "Signup" : "Login"
 
     useEffect(()=>{
-        if(loggout){
+        if(logout){
             setUser(null)
             navigate("/")
         }
@@ -33,6 +33,7 @@ function Login({isSignup = false, loggout = false}){
                 })
             }
         })
+    // eslint-disable-next-line
     },[user])
 
     function handleFormChange(e){

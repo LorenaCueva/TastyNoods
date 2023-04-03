@@ -16,7 +16,6 @@ function Pantry(){
         const response = await fetch('/pantry')
         const data = await response.json();
         if(response.ok){
-            console.log(data)
             setPantryItems(data);
         }
         else{
@@ -31,6 +30,7 @@ function Pantry(){
         else{
             fetchPantry();
         }
+    // eslint-disable-next-line
     },[])
 
     function handleDeleteItem(id){

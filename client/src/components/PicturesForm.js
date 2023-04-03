@@ -7,6 +7,7 @@ function PicturesForm({noodId, uploadSuccess, isEdit, clearForm}){
 
     useEffect(()=>{
         if(clearForm && !noodId){setSelectedImages([])}
+    // eslint-disable-next-line
     },[clearForm])
 
     async function handleFileSubmit(e) {
@@ -86,10 +87,10 @@ function PicturesForm({noodId, uploadSuccess, isEdit, clearForm}){
               <figure className="image is-96x96">
                 {typeof image == "string" ? <img
                   src={image}
-                  alt={`Selected image ${index + 1}`}
+                  alt={`Pic ${index + 1}`}
                 /> : <img
                   src={URL.createObjectURL(image)}
-                  alt={`Selected image ${index + 1}`}
+                  alt={`Pic ${index + 1}`}
                 />}
                 <span className="delete " onClick={() => {
                     onRemoveImage(index)}}></span>
@@ -127,7 +128,7 @@ function PicturesForm({noodId, uploadSuccess, isEdit, clearForm}){
           
           </div>
         </div>
-        {loading || selectedImages.length != 3 ? null :
+        {loading || selectedImages.length !== 3 ? null :
           <button className="button is-danger" onClick={handleFileSubmit}>
             Choose Images
           </button>}   

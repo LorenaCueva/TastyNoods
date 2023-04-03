@@ -21,7 +21,7 @@ function App() {
           <Routes>
             <Route index element={<Login/>}></Route>
             <Route path='/login' element={<Login/>}></Route>
-            <Route path='/logout' element={<Login loggout={true}/>}></Route>
+            <Route path='/logout' element={<Login logout={true}/>}></Route>
             <Route path='/signup' element={<Login isSignup={true}/>}></Route>
             <Route element={<Navbar/>}>
               <Route path='/user' element={<User/>}></Route>

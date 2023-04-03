@@ -26,6 +26,7 @@ function User(){
         if(!user){
             navigate('/login')
         }
+    // eslint-disable-next-line
     },[user])
 
     function handleFormChange(e){

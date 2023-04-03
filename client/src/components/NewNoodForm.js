@@ -48,6 +48,7 @@ function NewNoodForm({noodId, onCancel, onUpdateNood}){
         if(!user|| user.isAdmin === false){
             navigate('/')
         }
+    // eslint-disable-next-line
     },[])
 
     useEffect(()=>{
@@ -107,7 +108,7 @@ function NewNoodForm({noodId, onCancel, onUpdateNood}){
     async function handleFormSubmit(e){
         console.log(noodId)
         e.preventDefault();
-            if(stores.length == 0 ){
+            if(stores.length === 0 ){
                 setErrors({stores: ["add stores"]});
             }
             else{
@@ -174,7 +175,7 @@ function NewNoodForm({noodId, onCancel, onUpdateNood}){
       function handleKeyDown(e) {
         if (e.key === 'Enter') {
           e.preventDefault(); 
-          const { name, value } = e.target;
+          const { value } = e.target;
           e.target.value = value + '\n'
         }
       }
@@ -238,13 +239,13 @@ function NewNoodForm({noodId, onCancel, onUpdateNood}){
                 <label className="label">Cooking Time <span className="is-size-7 has-text-grey">(max 10 mins)</span></label>
                 <div className="field has-addons">
                     <p className="control">
-                        <a className="button is-static">MM:SS</a>
+                        <button className="button is-static">MM:SS</button>
                     </p>
                     <div className="control">
                         <input  type="number" className="input" min={0} max={10} placeholder="1" name="minutes" value={formData.minutes} onChange={handleFormChange}/>
                     </div>
                     <p className="control">
-                        <a className="button is-static">:</a>
+                        <button className="button is-static">:</button>
                     </p>
                     <div className="control">
                         <input  type="number" className="input" min={0} max={60} placeholder="00" name="seconds" value={formData.seconds} onChange={handleFormChange}/>

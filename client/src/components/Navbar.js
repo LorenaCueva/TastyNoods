@@ -23,6 +23,7 @@ function Navbar(){
              })
             
         }
+    // eslint-disable-next-line
     },[user])
 
     const toggleBurgerMenu = () => {
@@ -42,12 +43,12 @@ function Navbar(){
             <section className="section">
                 <nav className="navbar is-fixed-top" role="navigation" aria-label="main navigation">
                     <div className="navbar-brand">
-                            <img src="https://thumbs.dreamstime.com/b/illustration-bowl-noodle-noodles-chopsticks-91574625.jpg" width="85" height="28"/>
-                            <a role="button" className={`navbar-burger ${isActive ? 'is-active' : ''}`} aria-label="menu" aria-expanded="false" onClick={toggleBurgerMenu}>
+                            <img src="https://thumbs.dreamstime.com/b/illustration-bowl-noodle-noodles-chopsticks-91574625.jpg" width="85" height="28" alt="logo"/>
+                            <button className={`navbar-burger ${isActive ? 'is-active' : ''}`} aria-label="menu" aria-expanded="false" onClick={toggleBurgerMenu}>
                                 <span aria-hidden="true"></span>
                                 <span aria-hidden="true"></span>
                                 <span aria-hidden="true"></span>
-                            </a>
+                            </button>
                     </div>
                     <div className={`navbar-menu ${isActive ? 'is-active' : ''}`}>
                         <div className="navbar-start">
