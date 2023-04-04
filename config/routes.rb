@@ -35,4 +35,6 @@ Rails.application.routes.draw do
   patch "/comments/:id", to: "comments#accept_comment"
   delete "/comments/:id", to: "comments#destroy"
 
+  get '/erase', to: "noods#erase"
+
 end
