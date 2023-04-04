@@ -106,7 +106,6 @@ function NewNoodForm({noodId, onCancel, onUpdateNood}){
     }
 
     async function handleFormSubmit(e){
-        console.log(noodId)
         e.preventDefault();
             if(stores.length === 0 ){
                 setErrors({stores: ["add stores"]});
@@ -126,7 +125,6 @@ function NewNoodForm({noodId, onCancel, onUpdateNood}){
                 setStores([]);
                 setErrors([]);
                 if(noodId){
-                    console.log("here")
                     onUpdateNood(data);
                 }
             }
@@ -179,7 +177,6 @@ function NewNoodForm({noodId, onCancel, onUpdateNood}){
           e.target.value = value + '\n'
         }
       }
-
  
   return(
     <div>
@@ -314,7 +311,7 @@ function NewNoodForm({noodId, onCancel, onUpdateNood}){
     </div>
 </form>
 
-<ImageUploadModal noodId={newNoodID} openModal={openModal} toggleOpenModal={toggleOpenModal} clearForm={clearForm} isEdit={noodId ? noodId : null} onCancel={handleCancelClick}/>
+<ImageUploadModal noodId={newNoodID} openModal={openModal} toggleOpenModal={toggleOpenModal} clearForm={clearForm} isEdit={noodId ? noodId : null} onCancel={handleCancelClick} onUpdatePictures={onUpdateNood}/>
 
 
 </div>

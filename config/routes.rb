@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   patch "/noods/:id/pictures", to: "noods#set_pictures"
   get "/noods/:id/pictures", to: "noods#pictures"
   delete "/noods/:id/pictures", to: "noods#remove_picture"
+  get "/updatedNood/:id", to: "noods#updated"
 
   get "/noodReview/:id", to: "nood_with_review#show"
 

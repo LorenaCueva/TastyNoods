@@ -39,10 +39,15 @@ function Noods(){
         setSearch("");
     }
 
-    function handleUpdateNood(updatedNood){
-        console.log("updated", updatedNood)
-        const newNoodList = noods.map(nood => nood.id === updatedNood.id ? updatedNood : nood);
+    function handleUpdateNood(nood_id){
+        fetch(`/updatedNood/${nood_id}`)
+        .then(r => r.json())
+        .then(updatedNood => {
+            const newNoodList = noods.map(nood => nood.id === updatedNood.id ? updatedNood : nood);
         setNoods(newNoodList);
+        })
+        .catch(error => console.log(error))
+        
     }
 
     const noodsToRender = showReview? noods.filter(nood => nood.id === showReview) : noods

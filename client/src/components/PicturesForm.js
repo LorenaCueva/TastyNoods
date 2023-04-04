@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-function PicturesForm({noodId, uploadSuccess, isEdit, clearForm}){
+function PicturesForm({noodId, uploadSuccess, isEdit, clearForm, onUpdatePictures}){
 
     const [selectedImages, setSelectedImages] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -29,11 +29,11 @@ function PicturesForm({noodId, uploadSuccess, isEdit, clearForm}){
             })
             const data = await response.json();
             if(response.ok){
+                onUpdatePictures(data);
                 setLoading(false);
                 uploadSuccess(true);
             }
             else{
-                console.log(data);
                 uploadSuccess(false);
                 setLoading(false);
             }

@@ -1,5 +1,5 @@
 class NoodCommentsSerializer < ActiveModel::Serializer
-  attributes :id, :brand, :flavor, :nood_type, :cuisine, :price, :contents, :users_rating, :pantries, :pictures, :minutes, :seconds
+  attributes :id, :brand, :flavor, :nood_type, :cuisine, :price, :contents, :users_rating, :pantries, :pictures, :minutes, :seconds, :overall_rating
   has_one :rating, serializer: RatingSerializer
   has_many :stores 
 
@@ -25,6 +25,10 @@ class NoodCommentsSerializer < ActiveModel::Serializer
 
   def seconds
     object.cooking_time.to_i % 60
+  end
+
+  def overall_rating
+    object.rating&.overall_rating
   end
 
   # def pictures

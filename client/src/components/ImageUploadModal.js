@@ -2,7 +2,7 @@ import { useState } from "react";
 import PicturesForm from "./PicturesForm";
 import { useNavigate } from "react-router-dom";
 
-function ImageUploadModal({noodId, openModal, toggleOpenModal, clearForm, isEdit, onCancel}){
+function ImageUploadModal({noodId, openModal, toggleOpenModal, clearForm, isEdit, onCancel, onUpdatePictures}){
 
     const [imageUploadIsSucces, setImageUploadIsSuccess] = useState(null);
     const navigate = useNavigate();
@@ -20,7 +20,7 @@ function ImageUploadModal({noodId, openModal, toggleOpenModal, clearForm, isEdit
                 <p className={`has-text-centered ${imageUploadIsSucces ? 'has-text-success' : 'has-text-danger'}`}>
                     {imageUploadIsSucces ? "NOOD PICS ADDED!" : "OOPS, THERE WAS A PROBLEM. PLEASE TRY AGAIN"}
                 </p>}
-                {imageUploadIsSucces ? null : <PicturesForm noodId={noodId} uploadSuccess={setImageUploadIsSuccess} clearForm={clearForm} isEdit={isEdit}/>}
+                {imageUploadIsSucces ? null : <PicturesForm noodId={noodId} uploadSuccess={setImageUploadIsSuccess} clearForm={clearForm} isEdit={isEdit} onUpdatePictures={onUpdatePictures}/>}
                 </section>
                 {imageUploadIsSucces &&
                 <footer className="modal-card-foot">

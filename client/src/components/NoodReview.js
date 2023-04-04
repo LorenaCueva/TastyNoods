@@ -42,11 +42,10 @@ const NoodReview = ({nood_id, onDeleteNood, onClick, onUpdateNood, onCancel}) =>
 
       function handleUpdateNood(nood){
         setNood(nood);
-        onUpdateNood(nood);
+        onUpdateNood(nood.id);
       }
 
       async function handleAddToPantryClick(){
-        console.log(nood.id)
         const response = await fetch('/pantry', {
           method: "POST",
           headers:{"Content-Type" : "application/json"},
@@ -54,10 +53,10 @@ const NoodReview = ({nood_id, onDeleteNood, onClick, onUpdateNood, onCancel}) =>
         })
         const data = await response.json();
         if(response.ok){
-          console.log(data)
+            window.alert("Nood Added");
         }
         else{
-          console.log(data.errors)
+            console.log(data)
         }
       }
 

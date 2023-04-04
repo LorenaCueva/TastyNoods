@@ -1,7 +1,7 @@
 class NoodsController < ApplicationController
     before_action :authorize_logged
     before_action :authorize_admin, only: [:create, :update, :destroy]
-    before_action :find_nood, only: [:show, :update, :destroy, :nood_with_comments, :set_pictures, :pictures, :remove_picture]
+    before_action :find_nood, only: [:show, :update, :destroy, :nood_with_comments, :set_pictures, :pictures, :remove_picture, :updated]
 
     def index
         noods = Nood.all.order(updated_at: :desc)
@@ -22,7 +22,7 @@ class NoodsController < ApplicationController
           begin
             @nood.pictures.attach(params[:pictures])
             @nood.save
-            render json: @nood, status: :ok
+            render json: @nood, serializer: NoodCommentsSerializer, status: :ok
           rescue StandardError => e
             render json: { error: "Error uploading pictures: #{e.message}" }, status: :internal_server_error
           end
@@ -40,7 +40,11 @@ class NoodsController < ApplicationController
     end
 
     def pictures
-        render json: @nood, serializer: NoodPictrureSerializer, status: :ok
+        render json: @nood, serializer: NoodPictureSerializer, status: :ok
+    end
+
+    def updated
+        render json: @nood, status: :ok
     end
 
 
