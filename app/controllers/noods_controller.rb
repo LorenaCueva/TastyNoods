@@ -43,10 +43,6 @@ class NoodsController < ApplicationController
         render json: @nood, serializer: NoodPictrureSerializer, status: :ok
     end
 
-    def erase
-        Nood.destroy_all
-        render json: {message: "erased"},status: :ok
-    end
 
     private
 

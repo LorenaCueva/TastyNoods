@@ -59,12 +59,6 @@ function Noods(){
     // eslint-disable-next-line
     },[user])
 
-    function handleEraseAll(){
-        fetch('/erase')
-        .then(r => r.json()
-        .then(obj => console.log(obj)))
-    }
-
     if(showReview){
         return(
             <NoodReview nood_id={showReview} onDeleteNood={handleDeleteNood} onClick={toggleShowReview} onUpdateNood={handleUpdateNood} onCancel={toggleShowReview}/> 
@@ -74,7 +68,6 @@ function Noods(){
         return (
             <div>
                 <Search search={search} setSearch={setSearch}/>
-                <button onClick={handleEraseAll}>ERASE</button>
             <div >
                 
                 {noodCardsToRender.length === 0 ?  
