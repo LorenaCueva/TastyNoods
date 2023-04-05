@@ -7,7 +7,7 @@ import DeleteNoodModal from "./DeleteNoodModal";
 import { avatarPlaceholder, ramenBanner, ramen1, ramen2 } from "../Helpers";
 
 
-const NoodReview = ({nood_id, onDeleteNood, onClick, onUpdateNood, onCancel}) => {
+const NoodReview = ({nood_id, onDeleteNood, onClick, onUpdateNood}) => {
 
 
     const [nood, setNood] = useState(null);

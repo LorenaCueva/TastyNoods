@@ -21,10 +21,7 @@ function Login({isSignup = false, logout = false}){
     let message = signup ? "Signup" : "Login"
 
     useEffect(()=>{
-        if(logout){
-            setUser(null)
-            navigate("/")
-        }
+        if(!logout){
         fetch('/me').then(response => {
             if(response.ok){
                 response.json().then(user => {
@@ -32,7 +29,7 @@ function Login({isSignup = false, logout = false}){
                     navigate('/noods')
                 })
             }
-        })
+        })}
     // eslint-disable-next-line
     },[user])
 

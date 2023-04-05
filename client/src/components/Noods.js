@@ -6,9 +6,7 @@ import NoodReview from "./NoodReview";
 import Search from "./Search";
 import { titleColor } from "../Helpers";
 
-function Noods(){
-
-   
+function Noods({resetNoods, setResetNoods}){
 
     const {user} = useContext(UserContext);
 
@@ -16,6 +14,12 @@ function Noods(){
     const [showReview, setShowReview] = useState(null);
     const [search, setSearch] = useState("");
     const navigate = useNavigate();
+
+    useEffect(()=>{
+        if (resetNoods){
+            setShowReview(null)
+        }
+    },[resetNoods])
 
     async function fetchNoods(){
         const response = await fetch('/noods')
@@ -36,6 +40,7 @@ function Noods(){
 
     function toggleShowReview(id){
         !showReview ? setShowReview(id) : setShowReview(null);
+        setResetNoods(false);
         setSearch("");
     }
 

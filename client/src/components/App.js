@@ -9,10 +9,19 @@ import Noods from './Noods';
 import Pantry from './Pantry';
 import NewNoodForm from './NewNoodForm';
 import ReviewComments from './ReviewComments';
+import NoodReview from './NoodReview';
+import { useState } from 'react';
 
 
 
 function App() {
+
+  const [resetNoods, setResetNoods] = useState(null);
+
+  function handleGoToNoods(){
+    setResetNoods(true);
+  }
+
 
   return (
     <UserProvider>
@@ -23,11 +32,12 @@ function App() {
             <Route path='/login' element={<Login/>}></Route>
             <Route path='/logout' element={<Login logout={true}/>}></Route>
             <Route path='/signup' element={<Login isSignup={true}/>}></Route>
-            <Route element={<Navbar/>}>
+            <Route element={<Navbar goToNoods={handleGoToNoods}/>}>
               <Route path='/user' element={<User/>}></Route>
-              <Route path='/noods' element={<Noods/>}></Route>
+              <Route path='/noods' element={<Noods resetNoods={resetNoods} setResetNoods={setResetNoods}/>}></Route>
               <Route path='/pantry' element={<Pantry/>}></Route>
               <Route path='/noods/new' element={<NewNoodForm/>}></Route>
+              <Route path='/noods/:id' render={(props) => <NoodReview id={props.match.params.id} />}/>
               <Route path='/comments/review' element={<ReviewComments/>}></Route>
             </Route>
           </Routes>

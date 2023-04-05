@@ -3,7 +3,7 @@ import { UserContext } from "./UserContext";
 import { useContext, useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 
-function Navbar(){
+function Navbar({goToNoods}){
 
     const { user, setUser } = useContext(UserContext);
     const [isActive, setIsActive] = useState(false);
@@ -40,6 +40,11 @@ function Navbar(){
         }
     }
 
+    function handleNoods(){
+        goToNoods();
+        navigate('/noods')
+    }
+
     if(user){
         return(
             <section className="section">
@@ -55,19 +60,19 @@ function Navbar(){
                     <div className={`navbar-menu ${isActive ? 'is-active' : ''}`}>
                         <div className="navbar-start">
                             <div className="navbar-item has-dropdown is-hoverable">
-                                <p className="navbar-link" style={{ fontSize: "1.5rem" }}>{user.username}</p>
+                                <p className="button is-white" style={{ fontSize: "1.5rem" }}>{user.username}<i className="material-icons">expand_more</i></p>
                                 <div className="navbar-dropdown">
                                     <NavLink className="navbar-item" to="/user">Profile</NavLink>
                                 </div>
                             </div>
-                            <NavLink className="navbar-item" to="/noods" style={{ fontSize: "1.5rem" }}>Tasty Noods</NavLink>
-                            <NavLink className="navbar-item" to="/pantry" style={{ fontSize: "1.5rem" }}>My Pantry</NavLink>
+                            <button className="navbar-item button is-white" style={{ fontSize: "1.5rem" }} onClick={handleNoods}>Tasty Noods</button>
+                            <NavLink className="button is-white" to="/pantry" style={{ fontSize: "1.5rem" }}>My Pantry</NavLink>
                         </div>
                         <div className="navbar-end">
                             <div className="navbar-item">
                                 {user.isAdmin?
                                 <div className="navbar-item has-dropdown is-hoverable">
-                                    <p className="navbar-link" style={{ fontSize: "1.5rem" }}>Admin</p>
+                                    <p className="button is-white" style={{ fontSize: "1.5rem" }}>Admin<i className="material-icons">expand_more</i></p>
                                     <div className="navbar-dropdown">
                                         <NavLink className="navbar-item" to="/comments/review">Review Comments</NavLink>
                                         <NavLink className="navbar-item" to="/noods/new">Add Nood & Ratings</NavLink>
