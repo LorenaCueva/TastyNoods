@@ -13,7 +13,6 @@ function CommentsCard({item, onCommentReviewed}){
         .then(r => r.json())
         .then(data => {
             onCommentReviewed(item.id)
-            console.log(data)
         })
         .catch(error => console.log(error))
     }

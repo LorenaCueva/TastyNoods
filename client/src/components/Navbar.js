@@ -30,12 +30,14 @@ function Navbar(){
         setIsActive(!isActive);
     };
 
-    function handleLogout(){
-        fetch('/logout', {
+    async function handleLogout(){
+        const response = await  fetch('/logout', {
             method: "DELETE"
         })
-        .then(setUser(null))
-        .then(navigate('/logout'))
+        if(response.ok){
+            await setUser(null);
+            navigate('/logout')
+        }
     }
 
     if(user){
