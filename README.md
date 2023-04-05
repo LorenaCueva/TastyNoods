@@ -43,6 +43,8 @@ Run the application
 
 - Start your Tasty Noods journey at:
 
+https://tastynoods.onrender.com/
+
 
 ## Using
 
