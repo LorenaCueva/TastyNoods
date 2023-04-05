@@ -7,6 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 # User.create(username: "Lorena", password: "admin", isAdmin: true)
+User.create(username: "Ben", password: "admin", isAdmin: true)
 
 # time = 4.minutes + 30.seconds
 # n1 = Nood.create!(brand: "brand", flavor: "flavor1", nood_type: "type", cuisine: "cuisine", price: 1.95, contents: ["noodles", "flavor"], cooking_time: time)
