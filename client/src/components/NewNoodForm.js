@@ -112,11 +112,9 @@ function NewNoodForm({noodId, onCancel, onUpdateNood}){
             }
             else{
             const dataToSend = {...formData, ...ratingData, overall_rating: calculateRating(), stores: stores}
-            console.log(dataToSend)
             const response = noodId ? await postData(`/noods/${noodId}`, dataToSend, "PATCH") : await postData('/noods', dataToSend, "POST")
             const data = await response.json();
             if(response.ok){
-                console.log("data", data)
                 setNewNoodID(data.id)
                 setFormData(clearFormData);
                 setRatingData(clearRatingData);

@@ -2,7 +2,7 @@ import ReactStars from "react-stars";
 import { ramenBowl } from "../Helpers";
 
 
-function NoodCard({nood, onClick, onDeleteNood}){
+function NoodCard({nood, onClick}){
 
 
 
@@ -11,7 +11,6 @@ function NoodCard({nood, onClick, onDeleteNood}){
   }
 
   async function handleAddToPantryClick(){
-    console.log(nood.id)
     const response = await fetch('/pantry', {
       method: "POST",
       headers:{"Content-Type" : "application/json"},
@@ -19,7 +18,7 @@ function NoodCard({nood, onClick, onDeleteNood}){
     })
     const data = await response.json();
     if(response.ok){
-      console.log(data)
+      window.alert("Nood Added");
     }
     else{
       console.log(data.errors)
@@ -76,13 +75,7 @@ function NoodCard({nood, onClick, onDeleteNood}){
 </section>
 
 </div>
-
-
-
-
         </div> 
-        //     </div>
-        // </section>
     )
 }
 export default NoodCard;

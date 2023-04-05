@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import CommentsCard from "./CommentsCard";
+import { titleColor } from "../Helpers";
 
 
 
@@ -25,8 +26,8 @@ function ReviewComments({item}){
     return(
         <div style={{ height: "100vw" }}>
              {commentsToRender.length > 0 ? 
-            <div>
-                <h1 className="title">Review Comments</h1>
+            <div className="has-text-centered">
+                <h1 className="title" style={{color: titleColor}}>Review Comments</h1>
            
            <div className="columns is-multiline">
                {commentsToRender}
