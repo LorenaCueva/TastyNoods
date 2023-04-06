@@ -60,24 +60,25 @@ function Navbar({goToNoods}){
                     <div className={`navbar-menu ${isActive ? 'is-active' : ''}`}>
                         <div className="navbar-start">
                             <div className="navbar-item has-dropdown is-hoverable">
-                                <p className="button is-white" style={{ fontSize: "1.5rem" }}>{user.username}<i className="material-icons">expand_more</i></p>
+                                <p className="button is-white pt-5" style={{ fontSize: "1.5rem" }}>{user.username}<i className="material-icons">expand_more</i></p>
                                 <div className="navbar-dropdown">
                                     <NavLink className="navbar-item" to="/user">Profile</NavLink>
                                 </div>
                             </div>
-                            <button className="navbar-item button is-white" style={{ fontSize: "1.5rem" }} onClick={handleNoods}>Tasty Noods</button>
-                            <NavLink className="button is-white" to="/pantry" style={{ fontSize: "1.5rem" }}>My Pantry</NavLink>
+                            <button className="button is-white  pt-5" style={{ fontSize: "1.5rem" }} onClick={handleNoods}>Tasty Noods</button>
+                            <NavLink className="button is-white pt-5" to="/pantry" style={{ fontSize: "1.5rem" }}>My Pantry</NavLink>
                         </div>
                         <div className="navbar-end">
                             <div className="navbar-item">
                                 {user.isAdmin?
                                 <div className="navbar-item has-dropdown is-hoverable">
-                                    <p className="button is-white" style={{ fontSize: "1.5rem" }}>Admin<i className="material-icons">expand_more</i></p>
+                                    <button className="button is-white" style={{ fontSize: "1.5rem" }}>Admin<i className="material-icons">expand_more</i></button>
                                     <div className="navbar-dropdown">
                                         <NavLink className="navbar-item" to="/comments/review">Review Comments</NavLink>
                                         <NavLink className="navbar-item" to="/noods/new">Add Nood & Ratings</NavLink>
                                     </div>
                                 </div> : null}
+                                <NavLink className="button is-white" to="/about" style={{ fontSize: "1.5rem" }}>About</NavLink>
                                 <button className="button is-danger" onClick={handleLogout}>
                                     <strong>Logout</strong>
                                 </button>

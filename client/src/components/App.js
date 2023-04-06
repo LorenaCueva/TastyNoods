@@ -9,7 +9,7 @@ import Noods from './Noods';
 import Pantry from './Pantry';
 import NewNoodForm from './NewNoodForm';
 import ReviewComments from './ReviewComments';
-import NoodReview from './NoodReview';
+import About from './About';
 import { useState } from 'react';
 
 
@@ -37,7 +37,7 @@ function App() {
               <Route path='/noods' element={<Noods resetNoods={resetNoods} setResetNoods={setResetNoods}/>}></Route>
               <Route path='/pantry' element={<Pantry/>}></Route>
               <Route path='/noods/new' element={<NewNoodForm/>}></Route>
-              <Route path='/noods/:id' render={(props) => <NoodReview id={props.match.params.id} />}/>
+              <Route path='/about' element={<About/>}></Route>
               <Route path='/comments/review' element={<ReviewComments/>}></Route>
             </Route>
           </Routes>

@@ -13,8 +13,14 @@ class NoodCommentsSerializer < ActiveModel::Serializer
     object.pantries.average(:rating)
   end
 
+  # def pantries
+  #   object.pantries.where(flagged: false).where.not(comments: [nil, ""]).map do |pantry|
+  #     PantryCommentsSerializer.new(pantry, root: false)
+  #   end
+  # end
+  
   def pantries
-    object.pantries.where(flagged: false).where.not(comments: [nil, ""]).map do |pantry|
+    object.pantries.where.not(comments: [nil, ""]).map do |pantry|
       PantryCommentsSerializer.new(pantry, root: false)
     end
   end

@@ -53,6 +53,7 @@ function User(){
                    });
                    const data = await response.json();
                    if(response.ok){
+                        setAvatar(data.avatar)
                        setErrors(["Success!"])
                    }
                    else{
