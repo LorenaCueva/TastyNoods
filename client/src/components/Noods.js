@@ -71,7 +71,7 @@ function Noods({resetNoods, setResetNoods}){
 
     if(showReview){
         return(
-            <NoodReview nood_id={showReview} onDeleteNood={handleDeleteNood} onClick={toggleShowReview} onUpdateNood={handleUpdateNood} onCancel={toggleShowReview}/> 
+            <NoodReview nood_id={showReview} onDeleteNood={handleDeleteNood} onClick={toggleShowReview} onUpdateNood={handleUpdateNood}/> 
         )
     }
     else{

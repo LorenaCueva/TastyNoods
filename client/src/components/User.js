@@ -13,7 +13,7 @@ function User(){
     let displayErrors = [];
     
 
-    const { user } = useContext(UserContext);
+    const { user, setUser } = useContext(UserContext);
     const [formData, setFormData] = useState(clearFormData);
     const [errors, setErrors] = useState([]);
     const [selectedFile, setSelectedFile] = useState({avatar: null});
@@ -53,7 +53,6 @@ function User(){
                    });
                    const data = await response.json();
                    if(response.ok){
-                        setAvatar(data.avatar)
                        setErrors(["Success!"])
                    }
                    else{
@@ -76,6 +75,7 @@ function User(){
         })
         .then(r => r.json())
         .then(data => {
+            setUser(data)
             setLoading(false)
             setAvatar(data.avatar)
             setSelectedFile({avatar: null})
@@ -147,49 +147,6 @@ function User(){
                 </div>
             </div>
             </section>
-
-            {/* <section>
-            <div className="container is-fluid">
-            <div className="columns is-centered is-vcentered" style={{ minHeight: '100vh' }}>
-                <div className="column is-half">
-                    <div className="tile is-parent is-vertical"> */}
-                        {/* <div className="tile is-child has-text-centered box">
-                            <p className="title">Tile 1</p>
-                            <img id="panda" src="../ramen1.png" alt="panda" width= "30%"/>
-                            <div className="is-right">
-                    <button className="button is-small">
-                    <span>Change Avatar</span>
-                    <span className="icon is-small">
-                    <i className="material-icons">edit</i>
-                    </span>
-                    </button>
-                    </div>
-                        </div> */}
-                        {/* <article className="tile is-child">
-      <div className="content">
-      <figure className="image is-4by3">
-            <img src="../ramen1.png"/>
-          </figure>
-          <div className="is-right">
-                    <button className="button is-small">
-                    <span>Change Avatar</span>
-                    <span className="icon is-small">
-                    <i className="material-icons">edit</i>
-                    </span>
-                    </button>
-                    </div>
-        
-      </div>
-    </article>
-                        <div className="tile is-child box">
-                            <p className="title">Tile 2</p>
-                            <p>Content for Tile 2</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-            </section> */}
             </div>
         )
     }

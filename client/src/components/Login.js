@@ -73,7 +73,6 @@ function Login({isSignup = false, logout = false}){
             <div className="has-text-centered">
                 <div className="columns">
                 <div className="column is-half is-offset-one-quarter">
-                    
                     <div className="box">
                     <h3 className="title " style={{ color: titleColor }}>{message}</h3>
                     <p className="subtitle" style={{ color: titleColor }}>{`${message} to see our tasty noods!`}</p>
