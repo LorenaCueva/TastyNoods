@@ -1,7 +1,7 @@
 class NoodWithReviewController < ApplicationController
     before_action :authorize_logged
     before_action :authorize_admin
-    before_action :find_user, only: [:show]
+    before_action :find_user, only: [:show, :create, :update, :show]
     before_action :find_nood, only: [:update, :show]
 
     def create
@@ -14,7 +14,7 @@ class NoodWithReviewController < ApplicationController
                  params[:stores].map{|s|nood.locations.create!(store_id: s)}
                  nood.save
                  rating.save
-                render json: nood, serializer: NoodCommentsSerializer, status: :created
+                render json: nood, serializer: NoodCommentsSerializer, scope: @user, status: :created
             else
                 nood.destroy
                 render json:{errors: rating.errors}, status: :unprocessable_entity
@@ -34,7 +34,7 @@ class NoodWithReviewController < ApplicationController
           else
             @nood.locations.destroy_all
             params[:stores].map { |s| @nood.locations.create!(store_id: s) }
-            render json: @nood, serializer: NoodCommentsSerializer, status: :ok
+            render json: @nood, serializer: NoodCommentsSerializer, scope: @user, status: :ok
           end
         else
           render json: { errors: @nood.errors }, status: :unprocessable_entity
