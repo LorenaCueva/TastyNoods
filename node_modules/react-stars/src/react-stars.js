@@ -68,7 +68,7 @@ class ReactStars extends Component {
     })
   }
 
-  componentWillReceiveProps(props) {
+  UNSAFE_componentWillReceiveProps(props) {
     this.setState({
       stars: this.getStars(props.value),
       value: props.value,

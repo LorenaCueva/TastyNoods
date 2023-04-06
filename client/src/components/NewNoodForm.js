@@ -78,7 +78,6 @@ function NewNoodForm({noodId, onCancel, onUpdateNood}){
                 overall_rating: Number(data.rating.overall_rating),
             })
             setStores(data.stores.map(store => store.id))
-            console.log(data)
         }).catch(errors => console.log(errors))}
     },[noodId])
 

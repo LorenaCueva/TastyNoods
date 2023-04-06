@@ -25,7 +25,6 @@ function Noods({resetNoods, setResetNoods}){
         const response = await fetch('/noods')
         const data = await response.json();
         if(response.ok){
-            console.log(data)
             setNoods(data);
         }
         else{
