@@ -1,5 +1,5 @@
-class NoodSerializer < ActiveModel::Serializer
-  attributes :id, :brand, :flavor, :nood_type, :cuisine, :overall_rating, :short_notes, :picture, :user_rating, :in_user_pantry
+class PantryNoodSerializer < ActiveModel::Serializer
+  attributes :id, :brand, :flavor, :nood_type, :cuisine, :overall_rating, :short_notes, :picture, :user_rating
 
   def cook_time
     minutes = object.cooking_time.to_i / 60
@@ -21,10 +21,6 @@ class NoodSerializer < ActiveModel::Serializer
     end
   end
 
-  def in_user_pantry
-    object.pantries.where(user_id: scope.id).exists?
-  end
-
   def picture
     if object.pictures.attached?
       Cloudinary::Utils.cloudinary_url(object.pictures[0].key, 
@@ -36,5 +32,4 @@ class NoodSerializer < ActiveModel::Serializer
   end
 
   
-
 end

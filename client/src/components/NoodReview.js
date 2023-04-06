@@ -85,11 +85,11 @@ const NoodReview = ({nood_id, onDeleteNood, onClick, onUpdateNood}) => {
         </i>
         </>
     : null}
-    <i
+    {!nood.in_user_pantry ?<i
     className="material-icons is-clickable"
     style={{ position: 'absolute', top: 0, right: 40, zIndex: 1 }}
     onClick={handleAddToPantryClick}>add
-    </i>
+    </i> : null}
     <i
     className="material-icons is-clickable"
     style={{ position: 'absolute', top: 0, right: 10, zIndex: 1 }}

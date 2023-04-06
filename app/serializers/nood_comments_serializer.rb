@@ -1,5 +1,5 @@
 class NoodCommentsSerializer < ActiveModel::Serializer
-  attributes :id, :brand, :flavor, :nood_type, :cuisine, :price, :contents, :users_rating, :pantries, :pictures, :minutes, :seconds, :overall_rating
+  attributes :id, :brand, :flavor, :nood_type, :cuisine, :price, :contents, :users_rating, :pantries, :pictures, :minutes, :seconds, :overall_rating, :in_user_pantry
   has_one :rating, serializer: RatingSerializer
   has_many :stores 
 
@@ -18,11 +18,15 @@ class NoodCommentsSerializer < ActiveModel::Serializer
   #     PantryCommentsSerializer.new(pantry, root: false)
   #   end
   # end
-  
+
   def pantries
     object.pantries.where.not(comments: [nil, ""]).map do |pantry|
       PantryCommentsSerializer.new(pantry, root: false)
     end
+  end
+
+  def in_user_pantry
+    object.pantries.where(user_id: scope.id).exists?
   end
 
   def minutes

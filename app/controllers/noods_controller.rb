@@ -1,11 +1,14 @@
 class NoodsController < ApplicationController
     before_action :authorize_logged
     before_action :authorize_admin, only: [:create, :update, :destroy]
+    before_action :find_user, only: [:index, :nood_with_comments]
     before_action :find_nood, only: [:show, :update, :destroy, :nood_with_comments, :set_pictures, :pictures, :remove_picture, :updated]
 
     def index
-        noods = Nood.all.order(updated_at: :desc)
-        render json: noods, status: :ok
+            if @user
+            noods = Nood.all.order(updated_at: :desc)
+            render json: noods, each_serializer: NoodSerializer, scope: @user, status: :ok
+        end
     end
 
     def destroy
@@ -14,7 +17,9 @@ class NoodsController < ApplicationController
     end
 
     def nood_with_comments
-        render json: @nood, serializer: NoodCommentsSerializer, status: :ok
+        if @user
+            render json: @nood, serializer: NoodCommentsSerializer, scope: @user, status: :ok
+        end
     end
 
     def set_pictures

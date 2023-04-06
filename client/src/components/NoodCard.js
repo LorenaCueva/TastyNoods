@@ -30,11 +30,11 @@ function NoodCard({nood, onClick}){
     return(
   <div>
   <div style={{ position: 'relative' }}>
-    <i
+    {!nood.in_user_pantry ? <i
     className="material-icons is-clickable"
     style={{ position: 'absolute', top: 0, right: 40 }}
     onClick={handleAddToPantryClick}>add
-    </i>
+    </i>:null}
   <section className="section is-clickable" onClick={() => handleCardClick(nood.id)} >
   <div className="columns">
     <div className="column">
